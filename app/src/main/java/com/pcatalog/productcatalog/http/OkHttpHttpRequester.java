@@ -3,7 +3,6 @@ package com.pcatalog.productcatalog.http;
 import android.os.StrictMode;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pcatalog.productcatalog.models.UserDto;
 
 import java.io.IOException;
 
@@ -58,38 +57,6 @@ public class OkHttpHttpRequester implements HttpRequester {
 
         String responseBody = response.body().string();
         return responseBody;
-    }
-
-
-
-    @Override
-    public ResponseBody createNewUser(UserDto userDto) throws IOException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
-        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String carAsString = objectMapper.writeValueAsString(userDto);
-        RequestBody requestBody = RequestBody.create(JSON, carAsString);
-//        RequestBody requestBody = new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("somParam", "someValue")
-//                .build();
-        Request request = new Request.Builder()
-                .get()
-                .post(requestBody)
-                .url(host + "/user/new")
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        Response response = client.newCall(request)
-                .execute();
-
-
-
-        ResponseBody body2 = response.body();
-        return body2;
     }
 
     @Override
