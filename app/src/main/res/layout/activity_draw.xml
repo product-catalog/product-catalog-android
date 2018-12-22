@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.addproductpicture.DrawActivity"
+    android:background="@drawable/background">
+
+    <com.getmydrivercard.androidapp.views.pictures.CanvasView
+        android:id="@+id/canvas"
+        android:layout_width="379dp"
+        android:layout_height="447dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@color/md_white_1000" />
+
+    <Button
+        android:id="@+id/button_draw_savePicture"
+        android:layout_width="213dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/button_draw_clear"
+        android:background="@color/colorPrimary"
+        android:foreground="?attr/selectableItemBackground"
+        android:stateListAnimator="@null"
+        android:text="Proceed"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/button_draw_clear"
+        android:layout_width="171dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:background="@color/colorPrimary"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="clearCanvas"
+        android:text="Clear Canvas"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="342dp"
+        android:layout_height="68dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:text="Hereby I declare that all the
+provided details are correct and understand that it is a criminal offence if I make a false declaration"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textColor="@color/md_white_1000"/>
+
+</RelativeLayout>

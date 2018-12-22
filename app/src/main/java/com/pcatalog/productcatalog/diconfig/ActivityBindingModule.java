@@ -1,6 +1,7 @@
 package com.pcatalog.productcatalog.diconfig;
 
 import com.pcatalog.productcatalog.views.addproduct.AddProductActivity;
+import com.pcatalog.productcatalog.views.addproductpicture.AddProductPictureActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,5 +13,11 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector(
             modules = AddProductModule.class
     )
-    abstract AddProductActivity renewalActivity();
+    abstract AddProductActivity addProductActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(
+            modules = AddProductPictureModule.class
+    )
+    abstract AddProductPictureActivity addProductPictureActivity();
 }

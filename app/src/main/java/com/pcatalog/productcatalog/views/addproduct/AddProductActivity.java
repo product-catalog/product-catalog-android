@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
+import com.pcatalog.productcatalog.views.addproductpicture.AddProductPictureActivity;
 
 import javax.inject.Inject;
 
@@ -43,7 +44,7 @@ public class AddProductActivity extends BaseDrawerActivity implements AddProduct
 
     @Override
     public void navigateToAddProductPicture(ProductDto productDto) {
-        Intent intent = new Intent(this, AddProductActivity.class);
+        Intent intent = new Intent(this, AddProductPictureActivity.class);
         intent.putExtra("product", productDto);
         startActivity(intent);
         finish();
