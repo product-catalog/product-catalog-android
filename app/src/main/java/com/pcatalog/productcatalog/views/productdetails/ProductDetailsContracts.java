@@ -21,6 +21,12 @@ public interface ProductDetailsContracts {
         void loadProduct();
 
         void setProductId(Long id);
+
+        Long getProductId();
+    }
+
+    interface Navigator {
+        void navigateToProductsList();
     }
 }
 

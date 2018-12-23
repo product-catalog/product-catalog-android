@@ -7,15 +7,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Product;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProductDetailsFragment
         extends Fragment
@@ -23,8 +28,15 @@ public class ProductDetailsFragment
 
     private ProductDetailsContracts.Presenter mPresenter;
 
+    private ProductDetailsContracts.Navigator mNavigator;
+
     @BindView(R.id.textView_productDetalils_productName)
     TextView mNameTextView;
+
+    @BindView(R.id.button_productDetails_delete)
+    Button delete;
+
+    Product mProduct;
 
     @Inject
     public ProductDetailsFragment() {
@@ -52,6 +64,7 @@ public class ProductDetailsFragment
     @Override
     public void showProduct(Product product) {
         mNameTextView.setText(product.getName());
+        mProduct = product;
     }
 
     @Override
@@ -72,5 +85,20 @@ public class ProductDetailsFragment
     @Override
     public void hideLoading() {
 
+    }
+
+    @OnClick(R.id.button_productDetails_delete)
+    public void deleteProduct() {
+        OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
+        try {
+            okHttpHttpRequester.deleteProduct(mPresenter.getProductId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mNavigator.navigateToProductsList();
+    }
+
+    public void setNavigator(ProductDetailsContracts.Navigator navigator) {
+        mNavigator = navigator;
     }
 }

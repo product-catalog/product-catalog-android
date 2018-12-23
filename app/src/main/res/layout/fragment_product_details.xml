@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.productdetails.ProductDetailsFragment">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView_productDetalils_productName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/textView_productDetalils_productName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment"
-            android:textAlignment="center" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button_productDetails_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_edit_text"
+        android:padding="15dp"
+        android:shadowColor="@android:color/transparent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/numberPicker_addProduct_price"
+        android:text="Delete" />
 
-</FrameLayout>
+</RelativeLayout>

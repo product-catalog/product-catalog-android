@@ -57,5 +57,11 @@ public class ProductDetailsPresenter
     public void setProductId(Long productId) {
         mProductId = productId;
     }
+
+    @Override
+    public Long getProductId(){
+        return mProductId;
+    }
+
 }
 

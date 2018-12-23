@@ -126,6 +126,28 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
+    public ResponseBody deleteProduct(Long id) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        Request request = new Request.Builder()
+                .get()
+                .delete()
+                .url(host + "/product/delete?id=" + id)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = client.newCall(request)
+                .execute();
+
+
+
+        ResponseBody body2 = response.body();
+        return body2;
+    }
+
+    @Override
     public ResponseBody getProductById(Long id) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 

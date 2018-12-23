@@ -24,4 +24,6 @@ public interface HttpRequester {
     List<Product> getFilteredProducts(String pattern) throws Exception;
 
     ResponseBody createNewProduct(ProductDto productDto) throws IOException;
+
+    ResponseBody deleteProduct(Long id) throws IOException;
 }
