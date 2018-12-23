@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.productslist.ProductsListActivity">
+    tools:context=".views.productdetails.ProductDetailsActivity"
+    android:background="@drawable/background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,10 +17,10 @@
             android:layout_height="40dp" />
 
         <FrameLayout
-            android:layout_below="@id/drawer_toolbar"
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/drawer_toolbar" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

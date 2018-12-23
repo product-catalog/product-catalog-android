@@ -1,19 +1,29 @@
 package com.pcatalog.productcatalog.views.productslist;
 
+import com.pcatalog.productcatalog.async.base.SchedulerProvider;
+import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Product;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposable;
 
 public class ProductsListPresenter
         implements ProductsListContracts.Presenter {
-
-    private final ProductsService mProductsService;
+//
+//    private final ProductsService mProductsService;
     private final SchedulerProvider mSchedulerProvider;
     private ProductsListContracts.View mView;
 
     @Inject
     public ProductsListPresenter(
-            ProductsService productsService,
+            //ProductsService productsService,
             SchedulerProvider schedulerProvider) {
-        mProductsService = productsService;
+        //mProductsService = productsService;
         mSchedulerProvider = schedulerProvider;
     }
 
@@ -26,9 +36,10 @@ public class ProductsListPresenter
     @Override
     public void loadProducts() {
         mView.showLoading();
+        OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
-                .create((ObservableOnSubscribe<List<Superhero>>) emitter -> {
-                    List<Product> products = mProductsService.getAllProducts();
+                .create((ObservableOnSubscribe<List<Product>>) emitter -> {
+                    List<Product> products = okHttpHttpRequester.getAllProducts();
                     emitter.onNext(products);
                     emitter.onComplete();
                 })
@@ -44,9 +55,10 @@ public class ProductsListPresenter
     @Override
     public void filterProducts(String pattern) {
         mView.showLoading();
+        OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<List<Product>>) emitter -> {
-                    List<Product> products = mProductsService.getFilteredProducts(pattern);
+                    List<Product> products = okHttpHttpRequester.getFilteredProducts(pattern);
                     emitter.onNext(products);
                     emitter.onComplete();
                 })
@@ -64,7 +76,7 @@ public class ProductsListPresenter
         mView.showProductDetails(product);
     }
 
-    private void presentSuperheroesToView(List<Product> products) {
+    private void presentProductsToView(List<Product> products) {
         if (products.isEmpty()) {
             mView.showEmptyProductsList();
         } else {

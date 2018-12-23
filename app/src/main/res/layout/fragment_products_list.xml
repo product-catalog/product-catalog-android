@@ -5,10 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".views.productslist.ProductsListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar_productsList_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/editText_productsList_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter to search" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_productsList_products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/editText_productsList_filter"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </FrameLayout>

@@ -4,33 +4,38 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.models.Product;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ProductsListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProductsListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
+
 public class ProductsListFragment
         extends Fragment
         implements ProductsListContracts.View, ProductsAdapter.OnProductClickListener {
     private ProductsListContracts.Navigator mNavigator;
 
-    @BindView(R.id.lv_products)
+    @BindView(R.id.recyclerView_productsList_products)
     RecyclerView mProductsView;
 
-    @BindView(R.id.loading)
+    @BindView(R.id.progressBar_productsList_loading)
     ProgressBar mLoadingView;
 
-    @BindView(R.id.et_filter)
+    @BindView(R.id.editText_productsList_filter)
     EditText mFilterEditText;
 
     @Inject
@@ -114,7 +119,7 @@ public class ProductsListFragment
         mNavigator = navigator;
     }
 
-    @OnTextChanged(R.id.et_filter)
+    @OnTextChanged(R.id.editText_productsList_filter)
     public void onTextChanged() {
         String pattern = mFilterEditText.getText().toString();
         mPresenter.filterProducts(pattern);

@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -26,13 +27,16 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.PhotoDto;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
+import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,6 +44,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 public class AddProductPictureActivity extends BaseDrawerActivity implements AddProductPictureContracts.Navigator {
 
@@ -146,7 +151,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
 
     @Override
     public void navigateToProductList() {
-        Intent intent = new Intent(this, AddProductPictureActivity.class);
+        Intent intent = new Intent(this, ProductsListActivity.class);
         startActivity(intent);
         finish();
     }
@@ -205,10 +210,17 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageInByte2 = baos.toByteArray();
         String imageInByte = new String(imageInByte2);
-        String item = getIntent().getExtras().getString("token");
         ProductDto productDto = null;
-        productDto = (ProductDto) getIntent().getExtras().getSerializable("application");
-        productDto.setPhotoDto(new PhotoDto("gosho", BitMapToString(bitmap)));
+        productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
+        productDto.setPhoto(new PhotoDto("gosho", BitMapToString(bitmap)));
+        OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
+        try{
+            ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto("aaa", "aaa", new PhotoDto("11", "11"), 30.0));
+            Log.d("product response", responseBody.string());
+        }
+        catch (Exception e){
+
+        }
         navigateToProductList();
     }
 

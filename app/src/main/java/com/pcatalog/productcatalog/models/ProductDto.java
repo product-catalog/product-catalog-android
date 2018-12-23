@@ -6,13 +6,13 @@ public class ProductDto implements Serializable {
 
     private String name;
     private String description;
-    private PhotoDto photoDto;
+    private PhotoDto photo;
     private Double price;
 
-    public ProductDto(String name, String description, PhotoDto photoDto, Double price) {
+    public ProductDto(String name, String description, PhotoDto photo, Double price) {
         setName(name);
         setDescription(description);
-        setPhotoDto(photoDto);
+        setPhoto(photo);
         setPrice(price);
     }
 
@@ -32,12 +32,12 @@ public class ProductDto implements Serializable {
         this.description = description;
     }
 
-    public PhotoDto getPhotoDto() {
-        return photoDto;
+    public PhotoDto getPhoto() {
+        return photo;
     }
 
-    public void setPhotoDto(PhotoDto photoDto) {
-        this.photoDto = photoDto;
+    public void setPhoto(PhotoDto photo) {
+        this.photo = photo;
     }
 
     public Double getPrice() {

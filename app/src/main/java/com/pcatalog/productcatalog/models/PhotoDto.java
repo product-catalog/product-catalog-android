@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class PhotoDto implements Serializable {
     private String name;
-    private String picture;
+    private String photo;
 
-    public PhotoDto(String name, String picture) {
+    public PhotoDto(String name, String photo) {
         setName(name);
-        setPicture(picture);
+        setPhoto(photo);
     }
 
     public String getName() {
@@ -19,11 +19,11 @@ public class PhotoDto implements Serializable {
         this.name = name;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

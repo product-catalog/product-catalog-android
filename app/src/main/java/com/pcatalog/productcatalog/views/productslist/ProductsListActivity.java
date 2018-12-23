@@ -8,6 +8,9 @@ import android.os.Bundle;
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
+import com.pcatalog.productcatalog.views.productdetails.ProductDetailsActivity;
+import com.pcatalog.productcatalog.views.productdetails.ProductDetailsFragment;
+import com.pcatalog.productcatalog.views.productdetails.ProductDetailsPresenter;
 
 import javax.inject.Inject;
 
@@ -22,7 +25,7 @@ public class ProductsListActivity
     ProductsListFragment mProductsListFragment;
 
     @Inject
-    ProductsListContracts.Presenter mListPresenter;
+    ProductsListContracts.Presenter mProductsListPresenter;
 
     @Inject
     ProductDetailsFragment mProductDetailsFragment;
@@ -46,16 +49,7 @@ public class ProductsListActivity
                 .beginTransaction()
                 .replace(R.id.content, mProductsListFragment);
 
-        if (!isPhone()) {
-            mProductDetailsFragment.setPresenter(mProductDetailsPresenter);
-            transaction.replace(R.id.content_details, mProductDetailsFragment);
-        }
-
         transaction.commit();
-    }
-
-    private boolean isPhone() {
-        return findViewById(R.id.content_details) == null;
     }
 
     @Override
@@ -65,19 +59,14 @@ public class ProductsListActivity
 
     @Override
     public void navigateWith(Product product) {
-        if (isPhone()) {
-            Intent intent = new Intent(
-                    this,
-                    ProductDetailsActivity.class
-            );
+        Intent intent = new Intent(
+                this,
+                ProductDetailsActivity.class
+        );
 
-            intent.putExtra(ProductDetailsActivity.EXTRA_KEY, product);
+        intent.putExtra(ProductDetailsActivity.EXTRA_KEY, product);
 
-            startActivity(intent);
-        } else {
-            mProductDetailsPresenter.setProductId(product.getId());
-            mProductDetailsPresenter.loadProduct();
-        }
+        startActivity(intent);
     }
 }
 

@@ -71,10 +71,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_name)
+        @BindView(R.id.textView_productItem_productName)
         TextView mNameTextView;
 
-        @BindView(R.id.iv_product)
+        @BindView(R.id.imageView_productItem_productImage)
         ImageView mProductImageView;
         private OnProductClickListener mOnClickListener;
         private Product mProduct;
