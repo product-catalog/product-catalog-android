@@ -148,7 +148,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public ResponseBody getProductById(Long id) {
+    public Product getProductById(Long id) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -156,7 +156,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         ObjectMapper objectMapper = new ObjectMapper();
         Request request = new Request.Builder()
                 .get()
-                .url(host + "/product/getAll?id=" + id)
+                .url(host + "/product/getById?id=" + id)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
@@ -170,7 +170,9 @@ public class OkHttpHttpRequester implements HttpRequester {
         }
 
         ResponseBody body2 = response.body();
-        return body2;
+        Type listType = new TypeToken<Product>() {}.getType();
+        Product productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        return productsDetailsDtos;
     }
 
     @Override

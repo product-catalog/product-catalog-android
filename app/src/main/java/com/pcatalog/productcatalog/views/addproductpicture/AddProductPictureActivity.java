@@ -152,6 +152,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     @Override
     public void navigateToProductList() {
         Intent intent = new Intent(this, ProductsListActivity.class);
+        ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
         startActivity(intent);
         finish();
     }
@@ -215,8 +216,8 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         productDto.setPhoto(new PhotoDto("gosho", BitMapToString(bitmap)));
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         try{
-            ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto("aaa", "aaa", new PhotoDto("11", "11"), 30.0));
-            Log.d("product response", responseBody.string());
+            ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("11", "11"), productDto.getPrice()));
+            //Log.d("product response", responseBody.string());
         }
         catch (Exception e){
 

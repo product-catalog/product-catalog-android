@@ -19,7 +19,7 @@ public interface HttpRequester {
 
     List<Product> getAllProducts() throws IOException;
 
-    ResponseBody getProductById(Long id);
+    Product getProductById(Long id) throws IOException;
 
     List<Product> getFilteredProducts(String pattern) throws Exception;
 

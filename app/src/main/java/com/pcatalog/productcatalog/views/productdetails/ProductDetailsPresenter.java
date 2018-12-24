@@ -1,5 +1,7 @@
 package com.pcatalog.productcatalog.views.productdetails;
 
+import android.util.Log;
+
 import com.pcatalog.productcatalog.async.base.SchedulerProvider;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.PhotoDto;
@@ -42,8 +44,8 @@ public class ProductDetailsPresenter
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<Product>) emitter -> {
-                    ResponseBody responseBody = okHttpHttpRequester.getProductById(mProductId);
-                    Product product = new Product(1L, new Date(), new Date(), "10", "11", new PhotoDto("a", "A"), 1.0);
+                    Product product = okHttpHttpRequester.getProductById(mProductId);
+                    //Product product = new Product(1L, new Date(), new Date(), "10", "11", new PhotoDto("a", "A"), 1.0);
                     emitter.onNext(product);
                     emitter.onComplete();
                 })

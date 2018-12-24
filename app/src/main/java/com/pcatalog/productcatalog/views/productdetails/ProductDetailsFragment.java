@@ -33,6 +33,12 @@ public class ProductDetailsFragment
     @BindView(R.id.textView_productDetalils_productName)
     TextView mNameTextView;
 
+    @BindView(R.id.textView_productDetalils_productDescription)
+    TextView mDescriptionTextView;
+
+    @BindView(R.id.textView_productDetalils_productPrice)
+    TextView mPriceTextView;
+
     @BindView(R.id.button_productDetails_delete)
     Button delete;
 
@@ -64,6 +70,8 @@ public class ProductDetailsFragment
     @Override
     public void showProduct(Product product) {
         mNameTextView.setText(product.getName());
+        mDescriptionTextView.setText(product.getDescription());
+        mPriceTextView.setText(String.valueOf(product.getPrice()));
         mProduct = product;
     }
 

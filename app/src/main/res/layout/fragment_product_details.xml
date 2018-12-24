@@ -12,18 +12,36 @@
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center" />
 
+
+    <TextView
+        android:id="@+id/textView_productDetalils_productDescription"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:text="TextView"
+        android:layout_below="@+id/textView_productDetalils_productName"/>
+
+    <TextView
+        android:id="@+id/textView_productDetalils_productPrice"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="115dp"
+        android:text="TextView" />
+
     <Button
         android:id="@+id/button_productDetails_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="19dp"
         android:background="@drawable/shape_edit_text"
         android:padding="15dp"
         android:shadowColor="@android:color/transparent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/numberPicker_addProduct_price"
         android:text="Delete" />
 
 </RelativeLayout>

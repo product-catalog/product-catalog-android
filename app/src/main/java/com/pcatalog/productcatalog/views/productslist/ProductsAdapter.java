@@ -76,6 +76,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         @BindView(R.id.imageView_productItem_productImage)
         ImageView mProductImageView;
+
         private OnProductClickListener mOnClickListener;
         private Product mProduct;
 
