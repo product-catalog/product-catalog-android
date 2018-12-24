@@ -1,13 +1,17 @@
 package com.pcatalog.productcatalog.views.productdetails;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pcatalog.productcatalog.R;
@@ -38,6 +42,9 @@ public class ProductDetailsFragment
 
     @BindView(R.id.textView_productDetalils_productPrice)
     TextView mPriceTextView;
+
+    @BindView(R.id.imageView_productDetails_productImage)
+    ImageView mProductImageImageView;
 
     @BindView(R.id.button_productDetails_delete)
     Button delete;
@@ -72,6 +79,7 @@ public class ProductDetailsFragment
         mNameTextView.setText(product.getName());
         mDescriptionTextView.setText(product.getDescription());
         mPriceTextView.setText(String.valueOf(product.getPrice()));
+        mProductImageImageView.setImageBitmap(StringToBitMap(product.getPhoto().getPhoto()));
         mProduct = product;
     }
 
@@ -108,5 +116,16 @@ public class ProductDetailsFragment
 
     public void setNavigator(ProductDetailsContracts.Navigator navigator) {
         mNavigator = navigator;
+    }
+
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

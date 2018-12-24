@@ -1,7 +1,11 @@
 package com.pcatalog.productcatalog.views.productslist;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,9 +91,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         void bind(Product product) {
             mNameTextView.setText(product.getName());
-            Picasso.get()
-                    .load("http://idrawproart.com/CapOneSuperhero.jpg")
-                    .into(mProductImageView);
+            mProductImageView.setImageBitmap(StringToBitMap(product.getPhoto().getPhoto()));
+//            Picasso.get()
+//                    .load("http://idrawproart.com/CapOneSuperhero.jpg")
+//                    .into(mProductImageView);
             mProduct = product;
         }
 
@@ -100,6 +105,17 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         public void setOnClickListener(OnProductClickListener onClickListener) {
             mOnClickListener = onClickListener;
+        }
+    }
+
+    public static Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
         }
     }
 

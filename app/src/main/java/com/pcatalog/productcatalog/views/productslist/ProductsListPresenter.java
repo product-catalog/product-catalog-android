@@ -1,5 +1,7 @@
 package com.pcatalog.productcatalog.views.productslist;
 
+import android.util.Log;
+
 import com.pcatalog.productcatalog.async.base.SchedulerProvider;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Product;

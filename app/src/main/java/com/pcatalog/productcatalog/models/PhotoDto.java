@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class PhotoDto implements Serializable {
     private String name;
-    private String photo;
+    private byte[] photo;
 
-    public PhotoDto(String name, String photo) {
+    public PhotoDto(String name, byte[] photo) {
         setName(name);
         setPhoto(photo);
     }
@@ -19,11 +19,11 @@ public class PhotoDto implements Serializable {
         this.name = name;
     }
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 }

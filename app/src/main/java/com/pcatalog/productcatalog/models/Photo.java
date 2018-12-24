@@ -3,24 +3,19 @@ package com.pcatalog.productcatalog.models;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Product implements Serializable{
-
+public class Photo implements Serializable {
     private Long recordId;
     private Date recordCreated;
     private Date recordLastTimeEdited;
     private String name;
-    private String description;
-    private Photo photo;
-    private Double price;
+    private String photo;
 
-    public Product(Long recordId, Date recordCreated, Date recordLastTimeEdited, String name, String description, Photo photo, Double price) {
+    public Photo(Long recordId, Date recordCreated, Date recordLastTimeEdited, String name, String photo) {
         setRecordId(recordId);
         setRecordCreated(recordCreated);
         setRecordLastTimeEdited(recordLastTimeEdited);
         setName(name);
-        setDescription(description);
         setPhoto(photo);
-        setPrice(price);
     }
 
     public Long getRecordId() {
@@ -55,28 +50,11 @@ public class Product implements Serializable{
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Photo getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Photo photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
 }
