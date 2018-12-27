@@ -16,9 +16,11 @@ import android.widget.TextView;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
+import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.Product;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -112,6 +114,18 @@ public class ProductDetailsFragment
             e.printStackTrace();
         }
         mNavigator.navigateToProductsList();
+    }
+
+    @OnClick(R.id.button_productDetails_edit)
+    public void editProduct() {
+        OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
+        Product product = new Product(1L, new Date(), new Date(), "name", "name", new Photo(1L, new Date(), new Date(), "name", "name"), 1.0);
+        try {
+            product = okHttpHttpRequester.getProductById(mPresenter.getProductId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mNavigator.navigateToAddProduct(product);
     }
 
     public void setNavigator(ProductDetailsContracts.Navigator navigator) {

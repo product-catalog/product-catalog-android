@@ -8,6 +8,7 @@ import android.util.Log;
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
+import com.pcatalog.productcatalog.views.addproduct.AddProductActivity;
 import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
 
 import javax.inject.Inject;
@@ -51,6 +52,14 @@ public class ProductDetailsActivity extends BaseDrawerActivity implements Produc
     @Override
     public void navigateToProductsList() {
         Intent intent = new Intent(this, ProductsListActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void navigateToAddProduct(Product product) {
+        Intent intent = new Intent(this, AddProductActivity.class);
+        intent.putExtra("product", product);
         startActivity(intent);
         finish();
     }

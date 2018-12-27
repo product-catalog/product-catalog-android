@@ -27,6 +27,7 @@ public interface ProductDetailsContracts {
 
     interface Navigator {
         void navigateToProductsList();
+        void navigateToAddProduct(Product product);
     }
 }
 
