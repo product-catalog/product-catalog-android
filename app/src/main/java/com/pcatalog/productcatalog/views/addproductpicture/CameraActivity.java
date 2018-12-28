@@ -9,12 +9,18 @@ import android.hardware.Camera;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.enums.ProductAction;
+import com.pcatalog.productcatalog.models.Photo;
+import com.pcatalog.productcatalog.models.PhotoDto;
+import com.pcatalog.productcatalog.models.Product;
+import com.pcatalog.productcatalog.models.ProductDto;
 
 import java.io.ByteArrayOutputStream;
 
@@ -58,6 +64,16 @@ public class CameraActivity extends AppCompatActivity {
                     byte[] imageInByte = baos.toByteArray();
                     String uploadPicture = new String(imageInByte);
                     Intent intent = new Intent(this, AddProductPictureActivity.class);
+                    if (getIntent().getExtras().get("productAction") == ProductAction.EDIT){
+                        Product product = (Product)getIntent().getExtras().get("product");
+                        product.getPhoto().setPhoto(BitMapToString(bitmap2));
+                        intent.putExtra("product", product);
+                    }
+                    else {
+                        ProductDto productDto = (ProductDto) getIntent().getExtras().get("product");
+                        productDto.setPhoto(new PhotoDto("picture", imageInByte));
+                        intent.putExtra("product", productDto);
+                    }
                     intent.putExtra("image", BitMapToString(bitmap2));
                     startActivity(intent);
                     finish();

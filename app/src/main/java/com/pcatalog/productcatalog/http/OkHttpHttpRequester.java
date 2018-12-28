@@ -126,6 +126,36 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
+    public ResponseBody editProduct(Product product) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String carAsString = objectMapper.writeValueAsString(product);
+        RequestBody requestBody = RequestBody.create(JSON, carAsString);
+//        RequestBody requestBody = new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//                .addFormDataPart("somParam", "someValue")
+//                .build();
+        Request request = new Request.Builder()
+                .get()
+                .put(requestBody)
+                .url(host + "/product/edit")
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = client.newCall(request)
+                .execute();
+
+
+
+        ResponseBody body2 = response.body();
+        return body2;
+    }
+
+    @Override
     public ResponseBody deleteProduct(Long id) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 

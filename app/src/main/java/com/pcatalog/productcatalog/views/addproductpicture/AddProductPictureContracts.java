@@ -24,7 +24,7 @@ public interface AddProductPictureContracts {
         void unsubscribe();
     }
 
-    public interface Navigator {
+    interface Navigator {
         void navigateToProductList();
     }
 }

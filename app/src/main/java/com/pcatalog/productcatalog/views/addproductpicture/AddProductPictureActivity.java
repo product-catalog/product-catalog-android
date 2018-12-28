@@ -27,8 +27,11 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
+import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.PhotoDto;
+import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
 import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
@@ -132,8 +135,16 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         Button btnCamera = findViewById(R.id.btnCamera);
         btnCamera.setOnClickListener((v) -> {
             Intent intent = new Intent(AddProductPictureActivity.this, CameraActivity.class);
-            ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
-            intent.putExtra("product", productDto);
+            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT){
+                Product product = (Product) getIntent().getExtras().getSerializable("product");
+                intent.putExtra("product", product);
+                intent.putExtra("productAction", ProductAction.EDIT);
+            }
+            else {
+                ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
+                intent.putExtra("product", productDto);
+                intent.putExtra("productAction", ProductAction.ADD);
+            }
             startActivity(intent);
             finish();
         });
@@ -211,16 +222,29 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageInByte2 = baos.toByteArray();
         String imageInByte = new String(imageInByte2);
-        ProductDto productDto = null;
-        productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
-        productDto.setPhoto(new PhotoDto("image", imageInByte2));
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
-        try{
-            ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()));
-            //Log.d("product response", responseBody.string());
+        if (getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT){
+            try{
+                Product product = null;
+                product = (Product) getIntent().getExtras().getSerializable("product");
+                product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image",  new String(imageInByte2)));
+                okHttpHttpRequester.editProduct(product);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
-        catch (Exception e){
-
+        else {
+            try{
+                ProductDto productDto = null;
+                productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
+                productDto.setPhoto(new PhotoDto("image", imageInByte2));
+                ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()));
+                //Log.d("product response", responseBody.string());
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
         navigateToProductList();
     }

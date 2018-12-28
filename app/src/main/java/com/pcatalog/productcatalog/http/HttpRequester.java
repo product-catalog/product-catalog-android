@@ -26,4 +26,6 @@ public interface HttpRequester {
     ResponseBody createNewProduct(ProductDto productDto) throws IOException;
 
     ResponseBody deleteProduct(Long id) throws IOException;
+
+    ResponseBody editProduct(Product product) throws IOException;
 }

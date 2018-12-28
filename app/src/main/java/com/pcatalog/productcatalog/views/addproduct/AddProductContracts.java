@@ -1,5 +1,7 @@
 package com.pcatalog.productcatalog.views.addproduct;
 
+import com.pcatalog.productcatalog.enums.ProductAction;
+import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 
 public interface AddProductContracts {
@@ -7,7 +9,7 @@ public interface AddProductContracts {
 
         void setPresenter(AddProductContracts.Presenter presenter);
 
-        void navigateToAddProductPicture(ProductDto productDto);
+        void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction);
 
         void showError(Throwable throwable);
 
@@ -25,6 +27,6 @@ public interface AddProductContracts {
 
     public interface Navigator {
 
-        void navigateToAddProductPicture(ProductDto productDto);
+        void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction);
     }
 }

@@ -12,6 +12,7 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.models.ProductDto;
 
 import java.text.NumberFormat;
@@ -92,7 +93,12 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
     @OnClick(R.id.button_addProduct_proceed)
     public void onProceedClick() {
         ProductDto productDto = new ProductDto(productName.getText().toString(), productDescription.getText().toString(), null, productPrice.getValue()/1.0);
-        mNavigator.navigateToAddProductPicture(productDto);
+        if (getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().containsKey("productAction") && getActivity().getIntent().getExtras().get("productAction") == ProductAction.EDIT){
+            mNavigator.navigateToAddProductPicture(productDto, ProductAction.EDIT);
+        }
+        else {
+            mNavigator.navigateToAddProductPicture(productDto, ProductAction.ADD);
+        }
     }
 
     @Override
@@ -101,8 +107,8 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
     }
 
     @Override
-    public void navigateToAddProductPicture(ProductDto productDto) {
-        mNavigator.navigateToAddProductPicture(productDto);
+    public void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction) {
+        mNavigator.navigateToAddProductPicture(productDto, productAction);
     }
 
     @Override

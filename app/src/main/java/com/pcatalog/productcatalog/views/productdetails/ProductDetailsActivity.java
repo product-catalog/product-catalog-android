@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
 import com.pcatalog.productcatalog.views.addproduct.AddProductActivity;
@@ -31,9 +32,9 @@ public class ProductDetailsActivity extends BaseDrawerActivity implements Produc
 
         ButterKnife.bind(this);
 
+        getIntent().putExtra("productAction", ProductAction.ADD);
         Intent intent = getIntent();
         Product product = (Product) intent.getSerializableExtra(ProductDetailsActivity.EXTRA_KEY);
-        Log.d("currentproduct", product.getRecordId().toString());
         mProductDetailsPresenter.setProductId(product.getRecordId());
         mProductDetailsFragment.setPresenter(mProductDetailsPresenter);
         mProductDetailsFragment.setNavigator(this);
