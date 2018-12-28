@@ -9,10 +9,10 @@ public class ProductEdit implements Serializable {
     private Date recordLastTimeEdited;
     private String name;
     private String description;
-    private PhotoEditDto photo;
+    private Photo photo;
     private Double price;
 
-    public ProductEdit(Long recordId, Date recordCreated, Date recordLastTimeEdited, String name, String description, PhotoEditDto photo, Double price) {
+    public ProductEdit(Long recordId, Date recordCreated, Date recordLastTimeEdited, String name, String description, Photo photo, Double price) {
         setRecordId(recordId);
         setRecordCreated(recordCreated);
         setRecordLastTimeEdited(recordLastTimeEdited);
@@ -62,11 +62,11 @@ public class ProductEdit implements Serializable {
         this.description = description;
     }
 
-    public PhotoEditDto getPhoto() {
+    public Photo getPhoto() {
         return photo;
     }
 
-    public void setPhoto(PhotoEditDto photo) {
+    public void setPhoto(Photo photo) {
         this.photo = photo;
     }
 

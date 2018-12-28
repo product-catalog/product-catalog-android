@@ -31,7 +31,6 @@ import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.PhotoDto;
-import com.pcatalog.productcatalog.models.PhotoEditDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
@@ -41,7 +40,6 @@ import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -228,10 +226,10 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
             try{
                 Product product = null;
                 product = (Product) getIntent().getExtras().getSerializable("product");
-                product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image",  new String(imageInByte2)));
-                Log.d("imageId", product.getPhoto().getRecordId().toString());
+                product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image",  BitMapToString(bitmap)));
                 ProductEdit productEdit = new ProductEdit(product.getRecordId(), product.getRecordCreated(), product.getRecordLastTimeEdited(), product.getName(), product.getDescription(),
-                        new PhotoEditDto(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto().getBytes()), product.getPrice());
+                        new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto()), product.getPrice());
+                Log.d("imagee", product.getPhoto().getPhoto());
                 okHttpHttpRequester.editProduct(productEdit);
             }
             catch (Exception e){
