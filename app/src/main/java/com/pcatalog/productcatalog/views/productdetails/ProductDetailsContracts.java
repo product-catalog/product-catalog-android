@@ -1,5 +1,6 @@
 package com.pcatalog.productcatalog.views.productdetails;
 
+import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.models.Product;
 
 public interface ProductDetailsContracts {
@@ -27,7 +28,7 @@ public interface ProductDetailsContracts {
 
     interface Navigator {
         void navigateToProductsList();
-        void navigateToAddProduct(Product product);
+        void navigateToAddProduct(Product product, ProductAction productAction);
     }
 }
 

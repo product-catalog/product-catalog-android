@@ -3,9 +3,11 @@ package com.pcatalog.productcatalog.views.addproduct;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.ProductAction;
+import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
 import com.pcatalog.productcatalog.views.addproductpicture.AddProductPictureActivity;
@@ -44,9 +46,18 @@ public class AddProductActivity extends BaseDrawerActivity implements AddProduct
     }
 
     @Override
-    public void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction) {
+    public void navigateToAddProductPictureAdd(ProductDto productDto, ProductAction productAction) {
         Intent intent = new Intent(this, AddProductPictureActivity.class);
         intent.putExtra("product", productDto);
+        intent.putExtra("productAction", productAction);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void navigateToAddProductPictureEdit(Product product, ProductAction productAction) {
+        Intent intent = new Intent(this, AddProductPictureActivity.class);
+        intent.putExtra("product", product);
         intent.putExtra("productAction", productAction);
         startActivity(intent);
         finish();

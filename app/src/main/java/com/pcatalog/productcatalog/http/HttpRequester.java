@@ -2,6 +2,7 @@ package com.pcatalog.productcatalog.http;
 
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
+import com.pcatalog.productcatalog.models.ProductEdit;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,5 +28,5 @@ public interface HttpRequester {
 
     ResponseBody deleteProduct(Long id) throws IOException;
 
-    ResponseBody editProduct(Product product) throws IOException;
+    ResponseBody editProduct(ProductEdit product) throws IOException;
 }

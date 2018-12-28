@@ -31,8 +31,10 @@ import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.PhotoDto;
+import com.pcatalog.productcatalog.models.PhotoEditDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
+import com.pcatalog.productcatalog.models.ProductEdit;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
 import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
 
@@ -163,7 +165,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     @Override
     public void navigateToProductList() {
         Intent intent = new Intent(this, ProductsListActivity.class);
-        ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
         startActivity(intent);
         finish();
     }
@@ -228,7 +229,10 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                 Product product = null;
                 product = (Product) getIntent().getExtras().getSerializable("product");
                 product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image",  new String(imageInByte2)));
-                okHttpHttpRequester.editProduct(product);
+                Log.d("imageId", product.getPhoto().getRecordId().toString());
+                ProductEdit productEdit = new ProductEdit(product.getRecordId(), product.getRecordCreated(), product.getRecordLastTimeEdited(), product.getName(), product.getDescription(),
+                        new PhotoEditDto(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto().getBytes()), product.getPrice());
+                okHttpHttpRequester.editProduct(productEdit);
             }
             catch (Exception e){
                 e.printStackTrace();

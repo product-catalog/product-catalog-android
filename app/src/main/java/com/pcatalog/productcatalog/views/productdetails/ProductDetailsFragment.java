@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.Product;
@@ -125,7 +126,7 @@ public class ProductDetailsFragment
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mNavigator.navigateToAddProduct(product);
+        mNavigator.navigateToAddProduct(product, ProductAction.EDIT);
     }
 
     public void setNavigator(ProductDetailsContracts.Navigator navigator) {

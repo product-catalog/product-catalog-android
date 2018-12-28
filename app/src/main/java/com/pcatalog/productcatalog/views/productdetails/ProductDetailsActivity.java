@@ -58,9 +58,10 @@ public class ProductDetailsActivity extends BaseDrawerActivity implements Produc
     }
 
     @Override
-    public void navigateToAddProduct(Product product) {
+    public void navigateToAddProduct(Product product, ProductAction productAction) {
         Intent intent = new Intent(this, AddProductActivity.class);
         intent.putExtra("product", product);
+        intent.putExtra("productAction", productAction);
         startActivity(intent);
         finish();
     }

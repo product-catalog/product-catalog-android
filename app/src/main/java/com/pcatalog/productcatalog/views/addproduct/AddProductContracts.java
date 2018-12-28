@@ -9,8 +9,6 @@ public interface AddProductContracts {
 
         void setPresenter(AddProductContracts.Presenter presenter);
 
-        void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction);
-
         void showError(Throwable throwable);
 
         void hideLoading();
@@ -27,6 +25,7 @@ public interface AddProductContracts {
 
     public interface Navigator {
 
-        void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction);
+        void navigateToAddProductPictureAdd(ProductDto productDto, ProductAction productAction);
+        void navigateToAddProductPictureEdit(Product product, ProductAction productAction);
     }
 }

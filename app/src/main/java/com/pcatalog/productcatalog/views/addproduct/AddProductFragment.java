@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.ProductAction;
+import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 
 import java.text.NumberFormat;
@@ -94,10 +95,14 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
     public void onProceedClick() {
         ProductDto productDto = new ProductDto(productName.getText().toString(), productDescription.getText().toString(), null, productPrice.getValue()/1.0);
         if (getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().containsKey("productAction") && getActivity().getIntent().getExtras().get("productAction") == ProductAction.EDIT){
-            mNavigator.navigateToAddProductPicture(productDto, ProductAction.EDIT);
+            Product product = (Product)getActivity().getIntent().getExtras().get("product");
+            product.setName(productName.getText().toString());
+            product.setDescription(productDescription.getText().toString());
+            product.setPrice(productPrice.getValue()/1.0);
+            mNavigator.navigateToAddProductPictureEdit(product, ProductAction.EDIT);
         }
         else {
-            mNavigator.navigateToAddProductPicture(productDto, ProductAction.ADD);
+            mNavigator.navigateToAddProductPictureAdd(productDto, ProductAction.ADD);
         }
     }
 
@@ -106,10 +111,10 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
         mPresenter = presenter;
     }
 
-    @Override
-    public void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction) {
-        mNavigator.navigateToAddProductPicture(productDto, productAction);
-    }
+//    @Override
+//    public void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction) {
+//        mNavigator.navigateToAddProductPicture(productDto, productAction);
+//    }
 
     @Override
     public void showError(Throwable throwable) {

@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
+import com.pcatalog.productcatalog.models.ProductEdit;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -126,13 +127,13 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public ResponseBody editProduct(Product product) throws IOException {
+    public ResponseBody editProduct(ProductEdit productEdit) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        String carAsString = objectMapper.writeValueAsString(product);
+        String carAsString = objectMapper.writeValueAsString(productEdit);
         RequestBody requestBody = RequestBody.create(JSON, carAsString);
 //        RequestBody requestBody = new MultipartBody.Builder()
 //                .setType(MultipartBody.FORM)
