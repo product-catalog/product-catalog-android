@@ -3,6 +3,7 @@ package com.pcatalog.productcatalog.views.productslist;
 import android.util.Log;
 
 import com.pcatalog.productcatalog.async.base.SchedulerProvider;
+import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Product;
 
@@ -55,12 +56,12 @@ public class ProductsListPresenter
     }
 
     @Override
-    public void filterProducts(String pattern) {
+    public void filterProducts(String patternName, FilterField filterField) {
         mView.showLoading();
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<List<Product>>) emitter -> {
-                    List<Product> products = okHttpHttpRequester.getFilteredProducts(pattern);
+                    List<Product> products = okHttpHttpRequester.getFilteredProducts(patternName, filterField);
                     emitter.onNext(products);
                     emitter.onComplete();
                 })

@@ -5,6 +5,7 @@ import android.os.StrictMode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
@@ -207,12 +208,29 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getFilteredProducts(String pattern) throws Exception {
-        String patternToLower = pattern.toLowerCase();
+    public List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception {
+        String patternNameToLower = patternName.toLowerCase();
 
-        return getAllProducts().stream()
-                .filter(product -> product.getName().toLowerCase().contains(patternToLower))
-                .collect(Collectors.toList());
+        if (filterField == FilterField.TO2){
+            return getAllProducts().stream()
+                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() <= 2)
+                    .collect(Collectors.toList());
+        }
+        else if (filterField == FilterField.TO5){
+            return getAllProducts().stream()
+                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() <= 5)
+                    .collect(Collectors.toList());
+        }
+        else if (filterField == FilterField.TO10){
+            return getAllProducts().stream()
+                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() <= 10)
+                    .collect(Collectors.toList());
+        }
+        else {
+            return getAllProducts().stream()
+                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() > 10)
+                    .collect(Collectors.toList());
+        }
     }
 
 

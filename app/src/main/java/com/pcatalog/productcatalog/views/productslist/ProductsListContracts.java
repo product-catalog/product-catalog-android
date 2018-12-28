@@ -1,5 +1,6 @@
 package com.pcatalog.productcatalog.views.productslist;
 
+import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.models.Product;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface ProductsListContracts {
 
         void loadProducts();
 
-        void filterProducts(String pattern);
+        void filterProducts(String patternName, FilterField filterField);
 
         void selectProduct(Product product);
     }

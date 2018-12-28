@@ -16,17 +16,31 @@
             android:visibility="gone" />
 
         <EditText
-            android:id="@+id/editText_productsList_filter"
+            android:id="@+id/editText_productsList_filterName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="14dp"
             android:hint="Enter to search" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_productsList_products"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/editText_productsList_filter"
+            android:layout_below="@id/editText_productsList_filterName"
             android:visibility="gone" />
+
+        <Spinner
+            android:id="@+id/spinner_productsList_priceRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="67dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
+
     </RelativeLayout>
 
 </FrameLayout>

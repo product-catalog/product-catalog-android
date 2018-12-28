@@ -9,11 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.models.Product;
 
 import java.util.List;
@@ -35,8 +39,11 @@ public class ProductsListFragment
     @BindView(R.id.progressBar_productsList_loading)
     ProgressBar mLoadingView;
 
-    @BindView(R.id.editText_productsList_filter)
-    EditText mFilterEditText;
+    @BindView(R.id.editText_productsList_filterName)
+    EditText mFilterNameEditText;
+
+    @BindView(R.id.spinner_productsList_priceRange)
+    Spinner mFilterPriceSpinner;
 
     @Inject
     ProductsAdapter mProductsAdapter;
@@ -62,6 +69,27 @@ public class ProductsListFragment
         mProductsView.setAdapter(mProductsAdapter);
         mProductsViewLayoutManager = new GridLayoutManager(getContext(), 2);
         mProductsView.setLayoutManager(mProductsViewLayoutManager);
+
+//create a list of items for the spinner.
+        String[] items = new String[]{"TO2", "TO5", "TO10", "OVER10"};
+//create an adapter to describe how the items are displayed, adapters are used in several places in android.
+//There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+//set the spinners adapter to the previously created one.
+        mFilterPriceSpinner.setAdapter(adapter);
+        mFilterPriceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String patternName = mFilterNameEditText.getText().toString();
+                mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         return view;
     }
 
@@ -119,10 +147,10 @@ public class ProductsListFragment
         mNavigator = navigator;
     }
 
-    @OnTextChanged(R.id.editText_productsList_filter)
-    public void onTextChanged() {
-        String pattern = mFilterEditText.getText().toString();
-        mPresenter.filterProducts(pattern);
+    @OnTextChanged(R.id.editText_productsList_filterName)
+    public void onFilterNameTextChanged() {
+        String patternName = mFilterNameEditText.getText().toString();
+        mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString()));
     }
 
     @Override

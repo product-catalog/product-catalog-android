@@ -1,5 +1,6 @@
 package com.pcatalog.productcatalog.http;
 
+import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
@@ -22,7 +23,7 @@ public interface HttpRequester {
 
     Product getProductById(Long id) throws IOException;
 
-    List<Product> getFilteredProducts(String pattern) throws Exception;
+    List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception;
 
     ResponseBody createNewProduct(ProductDto productDto) throws IOException;
 
