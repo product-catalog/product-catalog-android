@@ -56,7 +56,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     private static String imageStoragePath;
 
     private static int RESULT_LOAD_IMAGE = 1;
-    public static final long IDENTIFIER = 290;
+    public static final long IDENTIFIER = 2;
 
     @Inject
     AddProductPictureFragment mView;
@@ -110,7 +110,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+                i.putExtra("token", getIntent().getExtras().get("token").toString());
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
@@ -139,11 +139,13 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                 Product product = (Product) getIntent().getExtras().getSerializable("product");
                 intent.putExtra("product", product);
                 intent.putExtra("productAction", ProductAction.EDIT);
+                intent.putExtra("token", getIntent().getExtras().get("token").toString());
             }
             else {
                 ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
                 intent.putExtra("product", productDto);
                 intent.putExtra("productAction", ProductAction.ADD);
+                intent.putExtra("token", getIntent().getExtras().get("token").toString());
             }
             startActivity(intent);
             finish();
@@ -314,7 +316,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
      */
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
         File file = CameraUtils.getOutputMediaFile();
         if (file != null) {
             imageStoragePath = file.getAbsolutePath();

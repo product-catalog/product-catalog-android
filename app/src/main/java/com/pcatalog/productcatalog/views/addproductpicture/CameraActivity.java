@@ -26,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 
 public class CameraActivity extends AppCompatActivity {
 
+    public static final long IDENTIFIER = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class CameraActivity extends AppCompatActivity {
                         intent.putExtra("product", productDto);
                     }
                     intent.putExtra("image", BitMapToString(bitmap2));
+                    intent.putExtra("token", getIntent().getExtras().get("token").toString());
                     startActivity(intent);
                     finish();
                 });

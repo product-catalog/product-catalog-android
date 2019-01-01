@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 
 public class AddProductActivity extends BaseDrawerActivity implements AddProductContracts.Navigator {
-    public static final long IDENTIFIER = 290;
+    public static final long IDENTIFIER = 8;
 
     @Inject
     AddProductFragment mView;
@@ -50,6 +50,7 @@ public class AddProductActivity extends BaseDrawerActivity implements AddProduct
         Intent intent = new Intent(this, AddProductPictureActivity.class);
         intent.putExtra("product", productDto);
         intent.putExtra("productAction", productAction);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
         startActivity(intent);
         finish();
     }
@@ -59,6 +60,7 @@ public class AddProductActivity extends BaseDrawerActivity implements AddProduct
         Intent intent = new Intent(this, AddProductPictureActivity.class);
         intent.putExtra("product", product);
         intent.putExtra("productAction", productAction);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
         startActivity(intent);
         finish();
     }

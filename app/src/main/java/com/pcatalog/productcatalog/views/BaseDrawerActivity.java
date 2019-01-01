@@ -12,7 +12,12 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.views.addproduct.AddProductActivity;
+import com.pcatalog.productcatalog.views.login.LoginActivity;
+import com.pcatalog.productcatalog.views.productdetails.ProductDetailsActivity;
+import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
+import com.pcatalog.productcatalog.views.welcomemenu.WelcomeMenuActivity;
 
 import butterknife.BindView;
 import dagger.android.support.DaggerAppCompatActivity;
@@ -27,26 +32,27 @@ public abstract class BaseDrawerActivity extends DaggerAppCompatActivity {
     }
 
     public void setupDrawer() {
-        PrimaryDrawerItem settings = new PrimaryDrawerItem()
+        PrimaryDrawerItem addProduct = new PrimaryDrawerItem()
                 .withIdentifier(AddProductActivity.IDENTIFIER)
-                .withName("Settings");
+                .withName("Add Product");
 
-        PrimaryDrawerItem myApplications = new PrimaryDrawerItem()
-                .withIdentifier(AddProductActivity.IDENTIFIER)
-                .withName("My Applications");
+        PrimaryDrawerItem logout = new PrimaryDrawerItem()
+                .withIdentifier(WelcomeMenuActivity.IDENTIFIER)
+                .withName("Logout");
 
-//        PrimaryDrawerItem registerItem = new PrimaryDrawerItem()
-//                .withIdentifier(RegisterActivity.IDENTIFIER)
-//                .withIcon(android.R.drawable.btn_plus)
-//                .withName("Create superhero");
+        PrimaryDrawerItem products = new PrimaryDrawerItem()
+                .withIdentifier(ProductsListActivity.IDENTIFIER)
+                .withName("Products");
 
         Drawer drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .addDrawerItems(
-                        myApplications,
+                        addProduct,
                         new DividerDrawerItem(),
-                        settings
+                        products,
+                        new DividerDrawerItem(),
+                        logout
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -68,16 +74,26 @@ public abstract class BaseDrawerActivity extends DaggerAppCompatActivity {
                         startActivity(intent);
                         return true;
                     }
-                })
+                })it 
                 .build();
     }
 
     private Intent getNextIntent(long identifier) {
         if (identifier == AddProductActivity.IDENTIFIER) {
-            return new Intent(this, AddProductActivity.class);
-        }
-        if (identifier == AddProductActivity.IDENTIFIER) {
             Intent intent = new Intent(this, AddProductActivity.class);
+            intent.putExtra("token", getIntent().getExtras().get("token").toString());
+            startActivity(intent);
+            finish();
+        }
+        else if (identifier == WelcomeMenuActivity.IDENTIFIER) {
+            Intent intent = new Intent(this, WelcomeMenuActivity.class);
+            intent.putExtra("token", getIntent().getExtras().get("token").toString());
+            startActivity(intent);
+            finish();
+        }
+        else if (identifier == ProductsListActivity.IDENTIFIER) {
+            Intent intent = new Intent(this, ProductsListActivity.class);
+            intent.putExtra("token", getIntent().getExtras().get("token").toString());
             startActivity(intent);
             finish();
         }

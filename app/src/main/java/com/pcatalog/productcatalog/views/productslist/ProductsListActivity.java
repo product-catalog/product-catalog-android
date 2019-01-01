@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class ProductsListActivity
         extends BaseDrawerActivity
         implements ProductsListContracts.Navigator {
-    public static final long IDENTIFIER = 49;
+    public static final long IDENTIFIER = 6;
 
     @Inject
     ProductsListFragment mProductsListFragment;
@@ -65,6 +65,7 @@ public class ProductsListActivity
         );
 
         intent.putExtra(ProductDetailsActivity.EXTRA_KEY, product);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
 
         startActivity(intent);
     }

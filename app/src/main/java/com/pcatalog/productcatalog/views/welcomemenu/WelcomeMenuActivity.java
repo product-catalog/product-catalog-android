@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 
 public class WelcomeMenuActivity extends BaseDrawerActivity implements WelcomeMenuContracts.Navigator {
-    public static final long IDENTIFIER = 291;
+    public static final long IDENTIFIER = 7;
 
     @Inject
     WelcomeMenuFragment mView;

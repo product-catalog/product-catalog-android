@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends BaseDrawerActivity implements LoginContracts.Navigator {
 
-    public static final long IDENTIFIER = 290;
+    public static final long IDENTIFIER = 4;
 
     @Inject
     LoginFragment mView;

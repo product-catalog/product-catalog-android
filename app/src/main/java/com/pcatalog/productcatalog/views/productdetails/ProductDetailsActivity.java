@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 public class ProductDetailsActivity extends BaseDrawerActivity implements ProductDetailsContracts.Navigator {
     public static final String EXTRA_KEY = "PRODUCT_EXTRA_KEY";
+    public static final long IDENTIFIER = 5;
 
     @Inject
     ProductDetailsFragment mProductDetailsFragment;
@@ -62,6 +63,7 @@ public class ProductDetailsActivity extends BaseDrawerActivity implements Produc
         Intent intent = new Intent(this, AddProductActivity.class);
         intent.putExtra("product", product);
         intent.putExtra("productAction", productAction);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
         startActivity(intent);
         finish();
     }
