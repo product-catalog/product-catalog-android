@@ -92,8 +92,140 @@ public class OkHttpHttpRequester implements HttpRequester {
         }
 
         ResponseBody body2 = response.body();
-        Type listType = new TypeToken<ArrayList<Product>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<Product>>() {
+        }.getType();
         ArrayList<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        return productsDetailsDtos;
+    }
+
+    @Override
+    public List<Product> getFilteredProductsByName(String pattern) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Request request = new Request.Builder()
+                .get()
+                .url(host + "/product/getByName?name=" + pattern)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ResponseBody body2 = response.body();
+        Type listType = new TypeToken<ArrayList<Product>>() {
+        }.getType();
+        ArrayList<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+
+        return productsDetailsDtos;
+    }
+
+    @Override
+    public List<Product> getFilteredProductsByPrice(FilterField filterField) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Request request;
+        if (filterField == FilterField.BETWEEN0AND25){
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByPrice?minPrice=0&maxPrice=25")
+                    .build();
+        }
+        else if (filterField == FilterField.BETWEEN25AND50){
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByPrice?minPrice=25&maxPrice=50")
+                    .build();
+        }
+        else if (filterField == FilterField.BETWEEN50AND75){
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByPrice?minPrice=50&maxPrice=75")
+                    .build();
+        }
+        else {
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByPrice?minPrice=75&maxPrice=100")
+                    .build();
+        }
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ResponseBody body2 = response.body();
+        Type listType = new TypeToken<ArrayList<Product>>() {
+        }.getType();
+        ArrayList<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        return productsDetailsDtos;
+    }
+
+    @Override
+    public List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Request request;
+        if (filterField == FilterField.BETWEEN0AND25){
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=0&maxPrice=25")
+                    .build();
+        }
+        else if (filterField == FilterField.BETWEEN25AND50){
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=25&maxPrice=50")
+                    .build();
+        }
+        else if (filterField == FilterField.BETWEEN50AND75){
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=50&maxPrice=75")
+                    .build();
+        }
+        else {
+            request = new Request.Builder()
+                    .get()
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=75&maxPrice=100")
+                    .build();
+        }
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ResponseBody body2 = response.body();
+        Type listType = new TypeToken<ArrayList<Product>>() {
+        }.getType();
+        List<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+
         return productsDetailsDtos;
     }
 
@@ -120,7 +252,6 @@ public class OkHttpHttpRequester implements HttpRequester {
 
         Response response = client.newCall(request)
                 .execute();
-
 
 
         ResponseBody body2 = response.body();
@@ -152,7 +283,6 @@ public class OkHttpHttpRequester implements HttpRequester {
                 .execute();
 
 
-
         ResponseBody body2 = response.body();
         return body2;
     }
@@ -172,7 +302,6 @@ public class OkHttpHttpRequester implements HttpRequester {
 
         Response response = client.newCall(request)
                 .execute();
-
 
 
         ResponseBody body2 = response.body();
@@ -202,35 +331,10 @@ public class OkHttpHttpRequester implements HttpRequester {
         }
 
         ResponseBody body2 = response.body();
-        Type listType = new TypeToken<Product>() {}.getType();
+        Type listType = new TypeToken<Product>() {
+        }.getType();
         Product productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
         return productsDetailsDtos;
-    }
-
-    @Override
-    public List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception {
-        String patternNameToLower = patternName.toLowerCase();
-
-        if (filterField == FilterField.TO2){
-            return getAllProducts().stream()
-                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() <= 2)
-                    .collect(Collectors.toList());
-        }
-        else if (filterField == FilterField.TO5){
-            return getAllProducts().stream()
-                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() <= 5)
-                    .collect(Collectors.toList());
-        }
-        else if (filterField == FilterField.TO10){
-            return getAllProducts().stream()
-                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() <= 10)
-                    .collect(Collectors.toList());
-        }
-        else {
-            return getAllProducts().stream()
-                    .filter(product -> product.getName().toLowerCase().contains(patternNameToLower) && product.getPrice() > 10)
-                    .collect(Collectors.toList());
-        }
     }
 
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.models.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -71,7 +73,7 @@ public class ProductsListFragment
         mProductsView.setLayoutManager(mProductsViewLayoutManager);
 
 //create a list of items for the spinner.
-        String[] items = new String[]{"TO2", "TO5", "TO10", "OVER10"};
+        String[] items = new String[]{"ALL", "BETWEEN 0 AND 25", "BETWEEN 25 AND 50", "BETWEEN 50 AND 75", "BETWEEN 75 AND 100"};
 //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
@@ -81,7 +83,9 @@ public class ProductsListFragment
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String patternName = mFilterNameEditText.getText().toString();
-                mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString()));
+                String filterField = mFilterPriceSpinner.getSelectedItem().toString().replaceAll("\\s+","");
+                Log.d("ivan", filterField);
+                mPresenter.filterProducts(patternName, FilterField.valueOf(filterField));
             }
 
             @Override
@@ -114,14 +118,16 @@ public class ProductsListFragment
 
     @Override
     public void showEmptyProductsList() {
+        showProducts(new ArrayList<>());
         Toast.makeText(getContext(),
                 "No products",
-                Toast.LENGTH_LONG)
+                Toast.LENGTH_SHORT)
                 .show();
     }
 
     @Override
     public void showError(Throwable e) {
+        e.printStackTrace();
         Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG)
                 .show();
     }
@@ -150,7 +156,7 @@ public class ProductsListFragment
     @OnTextChanged(R.id.editText_productsList_filterName)
     public void onFilterNameTextChanged() {
         String patternName = mFilterNameEditText.getText().toString();
-        mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString()));
+        mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString().replaceAll("\\s+","")));
     }
 
     @Override

@@ -25,6 +25,10 @@ public interface HttpRequester {
 
     List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception;
 
+    List<Product> getFilteredProductsByName(String pattern) throws IOException;
+
+    List<Product> getFilteredProductsByPrice(FilterField filterField) throws IOException;
+
     ResponseBody createNewProduct(ProductDto productDto) throws IOException;
 
     ResponseBody deleteProduct(Long id) throws IOException;

@@ -1,12 +1,14 @@
 package com.pcatalog.productcatalog.views.productslist;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.pcatalog.productcatalog.async.base.SchedulerProvider;
 import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,7 +19,7 @@ import io.reactivex.disposables.Disposable;
 
 public class ProductsListPresenter
         implements ProductsListContracts.Presenter {
-//
+    //
 //    private final ProductsService mProductsService;
     private final SchedulerProvider mSchedulerProvider;
     private ProductsListContracts.View mView;
@@ -61,7 +63,12 @@ public class ProductsListPresenter
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<List<Product>>) emitter -> {
-                    List<Product> products = okHttpHttpRequester.getFilteredProducts(patternName, filterField);
+                    List<Product> products;
+                    if (filterField.equals(FilterField.ALL)) {
+                        products = okHttpHttpRequester.getFilteredProductsByName(patternName);
+                    } else {
+                        products = okHttpHttpRequester.getFilteredProducts(patternName, filterField);
+                    }
                     emitter.onNext(products);
                     emitter.onComplete();
                 })
