@@ -243,7 +243,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                 ProductDto productDto = null;
                 productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
                 productDto.setPhoto(new PhotoDto("image", imageInByte2));
-                ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
+                okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
                 //Log.d("product response", responseBody.string());
             }
             catch (Exception e){

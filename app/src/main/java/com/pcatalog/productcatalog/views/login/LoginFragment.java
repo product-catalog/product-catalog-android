@@ -104,16 +104,10 @@ public class LoginFragment extends Fragment implements LoginContracts.View {
     public void navigateToMenu() {
         LoginDto loginDto = new LoginDto(username.getText().toString(), password.getText().toString());
         OkHttpHttpRequester example = new OkHttpHttpRequester();
-        TokenDto tokenDto = null;
-        try {
-            tokenDto = example.getToken(loginDto);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (tokenDto.getToken() != null){
+        TokenDto tokenDto = example.getToken(loginDto);
+        if (tokenDto.getToken() != null) {
             mNavigator.navigateToMenu(tokenDto.getToken());
-        }
-        else {
+        } else {
             Toast.makeText(getContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
         }
     }

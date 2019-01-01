@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -12,12 +14,18 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.pcatalog.productcatalog.R;
+import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.LoginDto;
+import com.pcatalog.productcatalog.models.PhotoDto;
+import com.pcatalog.productcatalog.models.Product;
+import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.views.addproduct.AddProductActivity;
 import com.pcatalog.productcatalog.views.login.LoginActivity;
 import com.pcatalog.productcatalog.views.productdetails.ProductDetailsActivity;
 import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
 import com.pcatalog.productcatalog.views.welcomemenu.WelcomeMenuActivity;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import dagger.android.support.DaggerAppCompatActivity;
@@ -74,7 +82,7 @@ public abstract class BaseDrawerActivity extends DaggerAppCompatActivity {
                         startActivity(intent);
                         return true;
                     }
-                })it 
+                })
                 .build();
     }
 
@@ -82,18 +90,19 @@ public abstract class BaseDrawerActivity extends DaggerAppCompatActivity {
         if (identifier == AddProductActivity.IDENTIFIER) {
             Intent intent = new Intent(this, AddProductActivity.class);
             intent.putExtra("token", getIntent().getExtras().get("token").toString());
-            startActivity(intent);
-            finish();
-        }
-        else if (identifier == WelcomeMenuActivity.IDENTIFIER) {
+            if (new OkHttpHttpRequester().isAdmin(getIntent().getExtras().get("token").toString())){
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Toast.makeText(this, "You are not admin to create new product", Toast.LENGTH_SHORT).show();
+            }
+        } else if (identifier == WelcomeMenuActivity.IDENTIFIER) {
             Intent intent = new Intent(this, WelcomeMenuActivity.class);
-            intent.putExtra("token", getIntent().getExtras().get("token").toString());
             startActivity(intent);
             finish();
-        }
-        else if (identifier == ProductsListActivity.IDENTIFIER) {
+        } else if (identifier == ProductsListActivity.IDENTIFIER) {
             Intent intent = new Intent(this, ProductsListActivity.class);
-            intent.putExtra("token", getIntent().getExtras().get("token").toString());
             startActivity(intent);
             finish();
         }

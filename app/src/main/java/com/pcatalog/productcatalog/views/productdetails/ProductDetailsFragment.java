@@ -109,11 +109,7 @@ public class ProductDetailsFragment
     @OnClick(R.id.button_productDetails_delete)
     public void deleteProduct() {
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
-        try {
-            okHttpHttpRequester.deleteProduct(mPresenter.getProductId(), getActivity().getIntent().getExtras().get("token").toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        okHttpHttpRequester.deleteProduct(mPresenter.getProductId(), getActivity().getIntent().getExtras().get("token").toString());
         mNavigator.navigateToProductsList();
     }
 
@@ -121,11 +117,7 @@ public class ProductDetailsFragment
     public void editProduct() {
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Product product = new Product(1L, new Date(), new Date(), "name", "name", new Photo(1L, new Date(), new Date(), "name", "name"), 1.0);
-        try {
-            product = okHttpHttpRequester.getProductById(mPresenter.getProductId(), getActivity().getIntent().getExtras().get("token").toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        product = okHttpHttpRequester.getProductById(mPresenter.getProductId(), getActivity().getIntent().getExtras().get("token").toString());
         mNavigator.navigateToAddProduct(product, ProductAction.EDIT);
     }
 

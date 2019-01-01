@@ -17,23 +17,25 @@ public interface HttpRequester {
 
     String post(String url, String body) throws IOException;
 
-    TokenDto getToken(LoginDto loginDto) throws IOException;
+    TokenDto getToken(LoginDto loginDto);
 
     ResponseBody getUser(String token);
 
-    List<Product> getAllProducts(String token) throws IOException;
+    List<Product> getAllProducts(String token);
 
-    Product getProductById(Long id, String token) throws IOException;
+    Product getProductById(Long id, String token);
 
-    List<Product> getFilteredProducts(String patternName, FilterField filterField, String token) throws Exception;
+    List<Product> getFilteredProducts(String patternName, FilterField filterField, String token);
 
-    List<Product> getFilteredProductsByName(String pattern, String token) throws IOException;
+    List<Product> getFilteredProductsByName(String pattern, String token);
 
-    List<Product> getFilteredProductsByPrice(FilterField filterField, String token) throws IOException;
+    List<Product> getFilteredProductsByPrice(FilterField filterField, String token);
 
-    ResponseBody createNewProduct(ProductDto productDto, String token) throws IOException;
+    Product createNewProduct(ProductDto productDto, String token);
 
-    ResponseBody deleteProduct(Long id, String token) throws IOException;
+    ResponseBody deleteProduct(Long id, String token);
 
-    ResponseBody editProduct(ProductEdit product, String token) throws IOException;
+    ResponseBody editProduct(ProductEdit product, String token);
+
+    Boolean isAdmin(String token);
 }

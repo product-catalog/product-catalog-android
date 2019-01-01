@@ -73,7 +73,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getAllProducts(String token) throws IOException {
+    public List<Product> getAllProducts(String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -99,12 +99,17 @@ public class OkHttpHttpRequester implements HttpRequester {
         ResponseBody body2 = response.body();
         Type listType = new TypeToken<ArrayList<Product>>() {
         }.getType();
-        ArrayList<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        ArrayList<Product> productsDetailsDtos = null;
+        try {
+            productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return productsDetailsDtos;
     }
 
     @Override
-    public List<Product> getFilteredProductsByName(String pattern, String token) throws IOException {
+    public List<Product> getFilteredProductsByName(String pattern, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -129,13 +134,18 @@ public class OkHttpHttpRequester implements HttpRequester {
         ResponseBody body2 = response.body();
         Type listType = new TypeToken<ArrayList<Product>>() {
         }.getType();
-        ArrayList<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        ArrayList<Product> productsDetailsDtos = null;
+        try {
+            productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return productsDetailsDtos;
     }
 
     @Override
-    public List<Product> getFilteredProductsByPrice(FilterField filterField, String token) throws IOException {
+    public List<Product> getFilteredProductsByPrice(FilterField filterField, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -181,12 +191,17 @@ public class OkHttpHttpRequester implements HttpRequester {
         ResponseBody body2 = response.body();
         Type listType = new TypeToken<ArrayList<Product>>() {
         }.getType();
-        ArrayList<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        ArrayList<Product> productsDetailsDtos = null;
+        try {
+            productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return productsDetailsDtos;
     }
 
     @Override
-    public List<Product> getFilteredProducts(String patternName, FilterField filterField, String token) throws Exception {
+    public List<Product> getFilteredProducts(String patternName, FilterField filterField, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -232,19 +247,29 @@ public class OkHttpHttpRequester implements HttpRequester {
         ResponseBody body2 = response.body();
         Type listType = new TypeToken<ArrayList<Product>>() {
         }.getType();
-        List<Product> productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        List<Product> productsDetailsDtos = null;
+        try {
+            productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return productsDetailsDtos;
     }
 
     @Override
-    public ResponseBody createNewProduct(ProductDto productDto, String token) throws IOException {
+    public Product createNewProduct(ProductDto productDto, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        String carAsString = objectMapper.writeValueAsString(productDto);
+        String carAsString = null;
+        try {
+            carAsString = objectMapper.writeValueAsString(productDto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         RequestBody requestBody = RequestBody.create(JSON, carAsString);
 //        RequestBody requestBody = new MultipartBody.Builder()
 //                .setType(MultipartBody.FORM)
@@ -259,22 +284,39 @@ public class OkHttpHttpRequester implements HttpRequester {
 
         OkHttpClient client = new OkHttpClient();
 
-        Response response = client.newCall(request)
-                .execute();
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         ResponseBody body2 = response.body();
-        return body2;
+        Type listType = new TypeToken<Product>() {
+        }.getType();
+        try{
+            return new Gson().fromJson(body2.string(), listType);
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 
     @Override
-    public ResponseBody editProduct(ProductEdit productEdit, String token) throws IOException {
+    public ResponseBody editProduct(ProductEdit productEdit, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        String carAsString = objectMapper.writeValueAsString(productEdit);
+        String carAsString = null;
+        try {
+            carAsString = objectMapper.writeValueAsString(productEdit);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         RequestBody requestBody = RequestBody.create(JSON, carAsString);
 //        RequestBody requestBody = new MultipartBody.Builder()
 //                .setType(MultipartBody.FORM)
@@ -289,8 +331,13 @@ public class OkHttpHttpRequester implements HttpRequester {
 
         OkHttpClient client = new OkHttpClient();
 
-        Response response = client.newCall(request)
-                .execute();
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         ResponseBody body2 = response.body();
@@ -298,7 +345,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public ResponseBody deleteProduct(Long id, String token) throws IOException {
+    public ResponseBody deleteProduct(Long id, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -311,8 +358,13 @@ public class OkHttpHttpRequester implements HttpRequester {
 
         OkHttpClient client = new OkHttpClient();
 
-        Response response = client.newCall(request)
-                .execute();
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         ResponseBody body2 = response.body();
@@ -320,7 +372,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public Product getProductById(Long id, String token) throws IOException {
+    public Product getProductById(Long id, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -345,24 +397,34 @@ public class OkHttpHttpRequester implements HttpRequester {
         ResponseBody body2 = response.body();
         Type listType = new TypeToken<Product>() {
         }.getType();
-        Product productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        Product productsDetailsDtos = null;
+        try {
+            productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return productsDetailsDtos;
     }
 
 
     @Override
-    public TokenDto getToken(LoginDto loginDto) throws IOException {
+    public TokenDto getToken(LoginDto loginDto) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
         final MediaType JSON = MediaType.get("application/json");
         ObjectMapper objectMapper = new ObjectMapper();
-        String carAsString = objectMapper.writeValueAsString(loginDto);
+        String carAsString = null;
+        try {
+            carAsString = objectMapper.writeValueAsString(loginDto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         RequestBody requestBody = RequestBody.create(JSON, carAsString);
         Request request = new Request.Builder()
                 .get()
                 .post(requestBody)
-                .url(host + "/token/generate-token")
+                .url(host + "/token/generateToken")
                 .build();
 
         OkHttpClient client = new OkHttpClient();
@@ -397,7 +459,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         ObjectMapper objectMapper = new ObjectMapper();
         Request request = new Request.Builder()
                 .get()
-                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Authorization", "earer " + token)
                 .url(host + "/user/getUser")
                 .build();
 
@@ -415,4 +477,34 @@ public class OkHttpHttpRequester implements HttpRequester {
         return body2;
     }
 
+    @Override
+    public Boolean isAdmin(String token) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Request request = new Request.Builder()
+                .get()
+                .addHeader("Authorization", "Bearer " + token)
+                .url(host + "/token/isAdmin")
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ResponseBody body2 = response.body();
+        try {
+            return Boolean.valueOf(body2.string());
+        } catch (IOException e) {
+            return false;
+        }
+    }
 }
