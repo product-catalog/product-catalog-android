@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pcatalog.productcatalog.enums.FilterField;
+import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
@@ -339,22 +340,18 @@ public class OkHttpHttpRequester implements HttpRequester {
 
 
     @Override
-    public ResponseBody getToken(String username, String password) {
+    public ResponseBody getToken(LoginDto loginDto) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
-        final MediaType JSON = MediaType.get("application/x-www-form-urlencoded");
-        RequestBody requestBody2 = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("username", username)
-                .addFormDataPart("password", password)
-                .addFormDataPart("grant_type", "password")
-                .build();
+        final MediaType JSON = MediaType.get("application/json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String carAsString = objectMapper.writeValueAsString(loginDto);
+        RequestBody requestBody = RequestBody.create(JSON, carAsString);
         Request request = new Request.Builder()
                 .get()
-                .header("Authorization", Credentials.basic("getmydrivercard", "bobi96"))
-                .post(requestBody2)
-                .url(host + "/oauth/token")
+                .post(requestBody)
+                .url(host + "/token/generate-token")
                 .build();
 
         OkHttpClient client = new OkHttpClient();

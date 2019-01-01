@@ -1,6 +1,7 @@
 package com.pcatalog.productcatalog.http;
 
 import com.pcatalog.productcatalog.enums.FilterField;
+import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
@@ -15,7 +16,7 @@ public interface HttpRequester {
 
     String post(String url, String body) throws IOException;
 
-    ResponseBody getToken(String username, String password);
+    ResponseBody getToken(LoginDto loginDto) throws IOException;
 
     ResponseBody getUser(String token);
 

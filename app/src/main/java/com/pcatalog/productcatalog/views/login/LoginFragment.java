@@ -3,6 +3,7 @@ package com.pcatalog.productcatalog.views.login;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
+import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.validators.Patterns;
 
 import java.io.IOException;
@@ -97,39 +99,21 @@ public class LoginFragment extends Fragment implements LoginContracts.View {
     }
 
     @OnClick(R.id.button_login_login)
-    public void navigateToMenu(){
-        if (!Pattern.matches(Patterns.PATTERN_STRING, username.getText().toString())){
-            username.setError("Username is not valid");
+    public void navigateToMenu() {
+        LoginDto loginDto = new LoginDto(username.getText().toString(), password.getText().toString());
+        OkHttpHttpRequester example = new OkHttpHttpRequester();
+        ResponseBody response2 = null;
+        try {
+            response2 = example.getToken(loginDto);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if (!Pattern.matches(Patterns.PATTERN_STRING, password.getText().toString())){
-            password.setError("Password is not valid");
+        try {
+            Log.d("token", response2.string());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if (Pattern.matches(Patterns.PATTERN_STRING, username.getText().toString()) && Pattern.matches(Patterns.PATTERN_STRING, password.getText().toString())){
-            OkHttpHttpRequester example = new OkHttpHttpRequester();
-            ResponseBody response2 = example.getToken(username.getText().toString(), password.getText().toString());
-            String token = null;
-            String response3 = null;
-            try {
-                //
-                response3 = response2.string();
-                token = response3.substring(17, response3.indexOf("\",\"token_type"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //
-            ResponseBody responseRole = example.getUser(token);
-            String role = null;
-            String responseRole2 = null;
-            try {
-                //
-                responseRole2 = responseRole.string();
-                role = responseRole2.substring(responseRole2.indexOf("role") + 7, responseRole2.indexOf("comments") - 3);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //
-            mNavigator.navigateToMenu(token, role);
-        }
+        //mNavigator.navigateToMenu(token, role);
     }
 
 }
