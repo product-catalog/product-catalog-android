@@ -230,7 +230,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                 ProductEdit productEdit = new ProductEdit(product.getRecordId(), product.getRecordCreated(), product.getRecordLastTimeEdited(), product.getName(), product.getDescription(),
                         new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto()), product.getPrice());
                 Log.d("imagee", product.getPhoto().getPhoto());
-                okHttpHttpRequester.editProduct(productEdit);
+                okHttpHttpRequester.editProduct(productEdit, getIntent().getExtras().get("token").toString());
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -241,7 +241,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                 ProductDto productDto = null;
                 productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
                 productDto.setPhoto(new PhotoDto("image", imageInByte2));
-                ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()));
+                ResponseBody responseBody = okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
                 //Log.d("product response", responseBody.string());
             }
             catch (Exception e){

@@ -5,6 +5,7 @@ import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
+import com.pcatalog.productcatalog.models.TokenDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,23 +17,23 @@ public interface HttpRequester {
 
     String post(String url, String body) throws IOException;
 
-    ResponseBody getToken(LoginDto loginDto) throws IOException;
+    TokenDto getToken(LoginDto loginDto) throws IOException;
 
     ResponseBody getUser(String token);
 
-    List<Product> getAllProducts() throws IOException;
+    List<Product> getAllProducts(String token) throws IOException;
 
-    Product getProductById(Long id) throws IOException;
+    Product getProductById(Long id, String token) throws IOException;
 
-    List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception;
+    List<Product> getFilteredProducts(String patternName, FilterField filterField, String token) throws Exception;
 
-    List<Product> getFilteredProductsByName(String pattern) throws IOException;
+    List<Product> getFilteredProductsByName(String pattern, String token) throws IOException;
 
-    List<Product> getFilteredProductsByPrice(FilterField filterField) throws IOException;
+    List<Product> getFilteredProductsByPrice(FilterField filterField, String token) throws IOException;
 
-    ResponseBody createNewProduct(ProductDto productDto) throws IOException;
+    ResponseBody createNewProduct(ProductDto productDto, String token) throws IOException;
 
-    ResponseBody deleteProduct(Long id) throws IOException;
+    ResponseBody deleteProduct(Long id, String token) throws IOException;
 
-    ResponseBody editProduct(ProductEdit product) throws IOException;
+    ResponseBody editProduct(ProductEdit product, String token) throws IOException;
 }

@@ -19,7 +19,7 @@ public interface ProductDetailsContracts {
     interface Presenter {
         void subscribe(View view);
 
-        void loadProduct();
+        void loadProduct(String token);
 
         void setProductId(Long id);
 

@@ -74,7 +74,7 @@ public class ProductDetailsFragment
     public void onResume() {
         super.onResume();
         mPresenter.subscribe(this);
-        mPresenter.loadProduct();
+        mPresenter.loadProduct(getActivity().getIntent().getExtras().get("token").toString());
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ProductDetailsFragment
     public void deleteProduct() {
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         try {
-            okHttpHttpRequester.deleteProduct(mPresenter.getProductId());
+            okHttpHttpRequester.deleteProduct(mPresenter.getProductId(), getActivity().getIntent().getExtras().get("token").toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class ProductDetailsFragment
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Product product = new Product(1L, new Date(), new Date(), "name", "name", new Photo(1L, new Date(), new Date(), "name", "name"), 1.0);
         try {
-            product = okHttpHttpRequester.getProductById(mPresenter.getProductId());
+            product = okHttpHttpRequester.getProductById(mPresenter.getProductId(), getActivity().getIntent().getExtras().get("token").toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

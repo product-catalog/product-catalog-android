@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.LoginDto;
+import com.pcatalog.productcatalog.models.TokenDto;
 import com.pcatalog.productcatalog.validators.Patterns;
 
 import java.io.IOException;
@@ -102,18 +104,18 @@ public class LoginFragment extends Fragment implements LoginContracts.View {
     public void navigateToMenu() {
         LoginDto loginDto = new LoginDto(username.getText().toString(), password.getText().toString());
         OkHttpHttpRequester example = new OkHttpHttpRequester();
-        ResponseBody response2 = null;
+        TokenDto tokenDto = null;
         try {
-            response2 = example.getToken(loginDto);
+            tokenDto = example.getToken(loginDto);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            Log.d("token", response2.string());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (tokenDto.getToken() != null){
+            mNavigator.navigateToMenu(tokenDto.getToken());
         }
-        //mNavigator.navigateToMenu(token, role);
+        else {
+            Toast.makeText(getContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

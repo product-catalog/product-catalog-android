@@ -43,7 +43,7 @@ public class LoginActivity extends BaseDrawerActivity implements LoginContracts.
     }
 
     @Override
-    public void navigateToMenu(String token, String role) {
+    public void navigateToMenu(String token) {
         Intent intent = new Intent(this, ProductsListActivity.class);
         intent.putExtra("token", token);
         startActivity(intent);

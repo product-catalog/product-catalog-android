@@ -39,12 +39,12 @@ public class ProductsListPresenter
     }
 
     @Override
-    public void loadProducts() {
+    public void loadProducts(String token) {
         mView.showLoading();
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<List<Product>>) emitter -> {
-                    List<Product> products = okHttpHttpRequester.getAllProducts();
+                    List<Product> products = okHttpHttpRequester.getAllProducts(token);
                     emitter.onNext(products);
                     emitter.onComplete();
                 })
@@ -58,16 +58,16 @@ public class ProductsListPresenter
     }
 
     @Override
-    public void filterProducts(String patternName, FilterField filterField) {
+    public void filterProducts(String patternName, FilterField filterField, String token) {
         mView.showLoading();
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<List<Product>>) emitter -> {
                     List<Product> products;
                     if (filterField.equals(FilterField.ALL)) {
-                        products = okHttpHttpRequester.getFilteredProductsByName(patternName);
+                        products = okHttpHttpRequester.getFilteredProductsByName(patternName, token);
                     } else {
-                        products = okHttpHttpRequester.getFilteredProducts(patternName, filterField);
+                        products = okHttpHttpRequester.getFilteredProducts(patternName, filterField, token);
                     }
                     emitter.onNext(products);
                     emitter.onComplete();

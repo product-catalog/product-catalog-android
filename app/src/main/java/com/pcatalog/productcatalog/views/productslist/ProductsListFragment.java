@@ -84,8 +84,7 @@ public class ProductsListFragment
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String patternName = mFilterNameEditText.getText().toString();
                 String filterField = mFilterPriceSpinner.getSelectedItem().toString().replaceAll("\\s+","");
-                Log.d("ivan", filterField);
-                mPresenter.filterProducts(patternName, FilterField.valueOf(filterField));
+                mPresenter.filterProducts(patternName, FilterField.valueOf(filterField), getActivity().getIntent().getExtras().get("token").toString());
             }
 
             @Override
@@ -101,7 +100,7 @@ public class ProductsListFragment
     public void onResume() {
         super.onResume();
         mPresenter.subscribe(this);
-        mPresenter.loadProducts();
+        mPresenter.loadProducts(getActivity().getIntent().getExtras().get("token").toString());
     }
 
     @Override
@@ -156,7 +155,7 @@ public class ProductsListFragment
     @OnTextChanged(R.id.editText_productsList_filterName)
     public void onFilterNameTextChanged() {
         String patternName = mFilterNameEditText.getText().toString();
-        mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString().replaceAll("\\s+","")));
+        mPresenter.filterProducts(patternName, FilterField.valueOf(mFilterPriceSpinner.getSelectedItem().toString().replaceAll("\\s+","")), getActivity().getIntent().getExtras().get("token").toString());
     }
 
     @Override

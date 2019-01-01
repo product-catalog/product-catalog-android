@@ -25,9 +25,9 @@ public interface ProductsListContracts {
     interface Presenter {
         void subscribe(View view);
 
-        void loadProducts();
+        void loadProducts(String token);
 
-        void filterProducts(String patternName, FilterField filterField);
+        void filterProducts(String patternName, FilterField filterField, String token);
 
         void selectProduct(Product product);
     }

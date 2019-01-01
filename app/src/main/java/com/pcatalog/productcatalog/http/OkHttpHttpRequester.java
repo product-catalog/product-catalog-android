@@ -1,6 +1,7 @@
 package com.pcatalog.productcatalog.http;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.models.ProductEdit;
+import com.pcatalog.productcatalog.models.TokenDto;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -71,14 +73,16 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getAllProducts() throws IOException {
+    public List<Product> getAllProducts(String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
+        Log.d("token", token);
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         Request request = new Request.Builder()
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .url(host + "/product/getAll")
                 .build();
 
@@ -100,7 +104,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getFilteredProductsByName(String pattern) throws IOException {
+    public List<Product> getFilteredProductsByName(String pattern, String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -108,6 +112,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         ObjectMapper objectMapper = new ObjectMapper();
         Request request = new Request.Builder()
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .url(host + "/product/getByName?name=" + pattern)
                 .build();
 
@@ -130,7 +135,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getFilteredProductsByPrice(FilterField filterField) throws IOException {
+    public List<Product> getFilteredProductsByPrice(FilterField filterField, String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -140,6 +145,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         if (filterField == FilterField.BETWEEN0AND25){
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByPrice?minPrice=0&maxPrice=25")
                     .build();
         }
@@ -180,7 +186,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getFilteredProducts(String patternName, FilterField filterField) throws Exception {
+    public List<Product> getFilteredProducts(String patternName, FilterField filterField, String token) throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -190,6 +196,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         if (filterField == FilterField.BETWEEN0AND25){
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=0&maxPrice=25")
                     .build();
         }
@@ -231,7 +238,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public ResponseBody createNewProduct(ProductDto productDto) throws IOException {
+    public ResponseBody createNewProduct(ProductDto productDto, String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -245,6 +252,7 @@ public class OkHttpHttpRequester implements HttpRequester {
 //                .build();
         Request request = new Request.Builder()
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .post(requestBody)
                 .url(host + "/product/new")
                 .build();
@@ -260,7 +268,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public ResponseBody editProduct(ProductEdit productEdit) throws IOException {
+    public ResponseBody editProduct(ProductEdit productEdit, String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -274,6 +282,7 @@ public class OkHttpHttpRequester implements HttpRequester {
 //                .build();
         Request request = new Request.Builder()
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .put(requestBody)
                 .url(host + "/product/edit")
                 .build();
@@ -289,12 +298,13 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public ResponseBody deleteProduct(Long id) throws IOException {
+    public ResponseBody deleteProduct(Long id, String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
         Request request = new Request.Builder()
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .delete()
                 .url(host + "/product/delete?id=" + id)
                 .build();
@@ -310,7 +320,7 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public Product getProductById(Long id) throws IOException {
+    public Product getProductById(Long id, String token) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -318,6 +328,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         ObjectMapper objectMapper = new ObjectMapper();
         Request request = new Request.Builder()
                 .get()
+                .addHeader("Authorization", "Bearer " + token)
                 .url(host + "/product/getById?id=" + id)
                 .build();
 
@@ -340,7 +351,7 @@ public class OkHttpHttpRequester implements HttpRequester {
 
 
     @Override
-    public ResponseBody getToken(LoginDto loginDto) throws IOException {
+    public TokenDto getToken(LoginDto loginDto) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -365,7 +376,16 @@ public class OkHttpHttpRequester implements HttpRequester {
         }
 
         ResponseBody body2 = response.body();
-        return body2;
+        Type listType = new TypeToken<TokenDto>() {
+        }.getType();
+        TokenDto tokenDto = new TokenDto("null");
+        try{
+            tokenDto = new Gson().fromJson(body2.string(), listType);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return tokenDto;
     }
 
     @Override
@@ -377,7 +397,7 @@ public class OkHttpHttpRequester implements HttpRequester {
         ObjectMapper objectMapper = new ObjectMapper();
         Request request = new Request.Builder()
                 .get()
-                .addHeader("Authorization", "bearer " + token)
+                .addHeader("Authorization", "Bearer " + token)
                 .url(host + "/user/getUser")
                 .build();
 

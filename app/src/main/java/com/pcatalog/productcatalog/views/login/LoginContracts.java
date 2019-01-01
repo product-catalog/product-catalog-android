@@ -20,6 +20,6 @@ public interface LoginContracts {
     }
 
     interface Navigator {
-        void navigateToMenu(String token, String role);
+        void navigateToMenu(String token);
     }
 }

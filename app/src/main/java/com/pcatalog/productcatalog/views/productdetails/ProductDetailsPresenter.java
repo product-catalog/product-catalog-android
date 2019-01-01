@@ -39,12 +39,12 @@ public class ProductDetailsPresenter
     }
 
     @Override
-    public void loadProduct() {
+    public void loadProduct(String token) {
         mView.showLoading();
         OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<Product>) emitter -> {
-                    Product product = okHttpHttpRequester.getProductById(mProductId);
+                    Product product = okHttpHttpRequester.getProductById(mProductId, token);
                     //Product product = new Product(1L, new Date(), new Date(), "10", "11", new PhotoDto("a", "A"), 1.0);
                     emitter.onNext(product);
                     emitter.onComplete();
