@@ -40,8 +40,8 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
     @BindView(R.id.editText_addProduct_description)
     EditText productDescription;
 
-    @BindView(R.id.numberPicker_addProduct_price)
-    NumberPicker productPrice;
+    @BindView(R.id.editText_addProduct_price)
+    EditText productPrice;
 
     private AddProductContracts.Navigator mNavigator;
 
@@ -56,32 +56,19 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_product, container, false);
         ButterKnife.bind(this, view);
-        productPrice.setMinValue(1);
-        productPrice.setMaxValue(100);
-        productPrice.setFormatter(formatter);
-        //productPrice.setOnValueChangedListener(onValueChangeListener);
         return view;
     }
-
-//    NumberPicker.OnValueChangeListener onValueChangeListener =
-//            new NumberPicker.OnValueChangeListener() {
-//                @Override
-//                public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-//                    Toast.makeText(getContext(),
-//                            "selected number " + numberPicker.getValue(), Toast.LENGTH_SHORT);
-//                }
-//            };
-
-    NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
-        @Override
-        public String format(int i) {
-            return NumberFormat.getCurrencyInstance(Locale.UK).format((long) i).toString();
-        }
-    };
 
     @Override
     public void onResume() {
         super.onResume();
+        if (getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().containsKey("productAction") && getActivity().getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
+            Product product = (Product) getActivity().getIntent().getExtras().get("product");
+            productName.setText(product.getName());
+            productDescription.setText(product.getDescription());
+            product.setDescription(productDescription.getText().toString());
+            productPrice.setText(String.valueOf(product.getPrice()));
+        }
         mPresenter.subscribe(this);
     }
 
@@ -93,16 +80,30 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
 
     @OnClick(R.id.button_addProduct_proceed)
     public void onProceedClick() {
-        ProductDto productDto = new ProductDto(productName.getText().toString(), productDescription.getText().toString(), null, productPrice.getValue()/1.0);
-        if (getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().containsKey("productAction") && getActivity().getIntent().getExtras().get("productAction") == ProductAction.EDIT){
-            Product product = (Product)getActivity().getIntent().getExtras().get("product");
-            product.setName(productName.getText().toString());
-            product.setDescription(productDescription.getText().toString());
-            product.setPrice(productPrice.getValue()/1.0);
-            mNavigator.navigateToAddProductPictureEdit(product, ProductAction.EDIT);
-        }
-        else {
-            mNavigator.navigateToAddProductPictureAdd(productDto, ProductAction.ADD);
+        if (productName.getText().toString().equals("")) {
+            productName.setError("Product Name cannot be empty");
+        } else if (productDescription.getText().toString().equals("")) {
+            productDescription.setError("Description cannot be empty");
+        } else {
+            ProductDto productDto = new ProductDto(productName.getText().toString(), productDescription.getText().toString(), null, 1.0);
+            if (getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().containsKey("productAction") && getActivity().getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
+                Product product = (Product) getActivity().getIntent().getExtras().get("product");
+                product.setName(productName.getText().toString());
+                product.setDescription(productDescription.getText().toString());
+                try {
+                    product.setPrice(Double.parseDouble(productPrice.getText().toString()));
+                    mNavigator.navigateToAddProductPictureEdit(product, ProductAction.EDIT);
+                } catch (Exception e) {
+                    productPrice.setError("Please provide valid floating point number");
+                }
+            } else {
+                try {
+                    productDto.setPrice(Double.parseDouble(productPrice.getText().toString()));
+                    mNavigator.navigateToAddProductPictureAdd(productDto, ProductAction.ADD);
+                } catch (Exception e) {
+                    productPrice.setError("Please provide valid floating point number");
+                }
+            }
         }
     }
 
