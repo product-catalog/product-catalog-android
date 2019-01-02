@@ -9,7 +9,7 @@ public interface ProductsListContracts {
     interface View {
         void setPresenter(Presenter presenter);
 
-        void showProducts(List<Product> superheroes);
+        void showProducts(List<Product> products);
 
         void showEmptyProductsList();
 

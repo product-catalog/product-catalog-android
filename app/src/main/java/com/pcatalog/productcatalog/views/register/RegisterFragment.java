@@ -63,7 +63,7 @@ public class RegisterFragment extends Fragment implements RegisterContracts.View
     }
 
     @OnClick(R.id.button_register_register)
-    public void onSuperheroSaveClicked() {
+    public void onRegisterSaveClicked() {
         OkHttpHttpRequester example = new OkHttpHttpRequester();
         example.registerUser(new LoginDto(username.getText().toString(), password.getText().toString()));
         TokenDto tokenDto = example.getToken(new LoginDto(username.getText().toString(), password.getText().toString()));
