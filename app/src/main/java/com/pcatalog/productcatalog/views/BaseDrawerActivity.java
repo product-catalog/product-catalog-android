@@ -103,6 +103,7 @@ public abstract class BaseDrawerActivity extends DaggerAppCompatActivity {
             finish();
         } else if (identifier == ProductsListActivity.IDENTIFIER) {
             Intent intent = new Intent(this, ProductsListActivity.class);
+            intent.putExtra("token", getIntent().getExtras().get("token").toString());
             startActivity(intent);
             finish();
         }

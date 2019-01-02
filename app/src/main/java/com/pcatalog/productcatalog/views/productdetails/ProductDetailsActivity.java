@@ -54,6 +54,7 @@ public class ProductDetailsActivity extends BaseDrawerActivity implements Produc
     @Override
     public void navigateToProductsList() {
         Intent intent = new Intent(this, ProductsListActivity.class);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
         startActivity(intent);
         finish();
     }

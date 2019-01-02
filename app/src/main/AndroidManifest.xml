@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".views.WelcomeActivity" />
         <activity android:name=".views.addproduct.AddProductActivity" />
         <activity android:name=".views.addproductpicture.AddProductPictureActivity" />
         <activity android:name=".views.addproductpicture.CameraActivity" />

@@ -6,6 +6,21 @@
     tools:context=".views.productdetails.ProductDetailsFragment">
 
     <TextView
+        android:id="@+id/textView_login_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Login"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:background="@color/md_white_1000"
+        android:textSize="35sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
         android:id="@+id/textView_productDetalils_productName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
