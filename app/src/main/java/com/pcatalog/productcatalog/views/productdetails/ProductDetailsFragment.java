@@ -86,9 +86,9 @@ public class ProductDetailsFragment
 
     @Override
     public void showProduct(Product product) {
-        mNameTextView.setText(product.getName());
-        mDescriptionTextView.setText(product.getDescription());
-        mPriceTextView.setText(String.valueOf(product.getPrice()));
+        mNameTextView.setText("Name: " + product.getName());
+        mDescriptionTextView.setText("Description: " + product.getDescription());
+        mPriceTextView.setText("Price: " + String.valueOf(product.getPrice()));
         mProductImageImageView.setImageBitmap(StringToBitMap(product.getPhoto().getPhoto()));
         mProduct = product;
     }
