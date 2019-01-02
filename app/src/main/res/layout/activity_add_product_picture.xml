@@ -17,11 +17,10 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="13dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/shapelogin"
         android:foreground="?attr/selectableItemBackground"
-        android:paddingHorizontal="16dp"
-        android:text="Pick From Gallery"
-        android:textColor="@android:color/white" />
+        android:paddingHorizontal="50dp"
+        android:text="Pick From Gallery" />
 
     <ImageView
         android:id="@+id/imageView_addProductPicture_imageView"
@@ -48,16 +47,18 @@
 
     <Button
         android:id="@+id/button_addProductPicture_save"
-        android:layout_width="173dp"
-        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:background="@color/colorPrimary"
         android:foreground="?attr/selectableItemBackground"
         android:paddingHorizontal="16dp"
         android:text="Proceed"
-        android:textColor="@android:color/white" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_addProduct_proceed"
+        android:background="@drawable/shapelogin"
+        android:padding="15dp"
+        android:shadowColor="@android:color/transparent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -66,7 +67,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/drawer_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:visibility="gone"/>
 
         <FrameLayout
             android:id="@+id/content"

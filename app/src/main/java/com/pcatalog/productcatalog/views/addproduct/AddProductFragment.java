@@ -79,7 +79,7 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
     }
 
     @OnClick(R.id.button_addProduct_proceed)
-    public void onProceedClick() {
+    public void onProceedButtonClick() {
         if (productName.getText().toString().equals("")) {
             productName.setError("Product Name cannot be empty");
         } else if (productDescription.getText().toString().equals("")) {
@@ -105,6 +105,11 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
                 }
             }
         }
+    }
+
+    @OnClick(R.id.button_addProduct_goToProductsList)
+    public void onGoToProductsListButtonClick() {
+        mNavigator.navigateToProductsList();
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
 import com.pcatalog.productcatalog.views.BaseDrawerActivity;
 import com.pcatalog.productcatalog.views.addproductpicture.AddProductPictureActivity;
+import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
 
 import javax.inject.Inject;
 
@@ -60,6 +61,14 @@ public class AddProductActivity extends BaseDrawerActivity implements AddProduct
         Intent intent = new Intent(this, AddProductPictureActivity.class);
         intent.putExtra("product", product);
         intent.putExtra("productAction", productAction);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void navigateToProductsList() {
+        Intent intent = new Intent(this, ProductsListActivity.class);
         intent.putExtra("token", getIntent().getExtras().get("token").toString());
         startActivity(intent);
         finish();

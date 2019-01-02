@@ -134,13 +134,12 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         Button btnCamera = findViewById(R.id.btnCamera);
         btnCamera.setOnClickListener((v) -> {
             Intent intent = new Intent(AddProductPictureActivity.this, CameraActivity.class);
-            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT){
+            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
                 Product product = (Product) getIntent().getExtras().getSerializable("product");
                 intent.putExtra("product", product);
                 intent.putExtra("productAction", ProductAction.EDIT);
                 intent.putExtra("token", getIntent().getExtras().get("token").toString());
-            }
-            else {
+            } else {
                 ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
                 intent.putExtra("product", productDto);
                 intent.putExtra("productAction", ProductAction.ADD);
@@ -217,40 +216,41 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     }
 
     @OnClick(R.id.button_addProductPicture_save)
-    public void onSuperheroSaveClicked() {
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageInByte2 = baos.toByteArray();
-        String imageInByte = new String(imageInByte2);
-        OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
-        if (getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT){
-            try{
-                Product product = null;
-                product = (Product) getIntent().getExtras().getSerializable("product");
-                product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image",  BitMapToString(bitmap)));
-                ProductEdit productEdit = new ProductEdit(product.getRecordId(), product.getRecordCreated(), product.getRecordLastTimeEdited(), product.getName(), product.getDescription(),
-                        new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto()), product.getPrice());
-                Log.d("imagee", product.getPhoto().getPhoto());
-                okHttpHttpRequester.editProduct(productEdit, getIntent().getExtras().get("token").toString());
+    public void onSaveClicked() {
+        if (imageView.getDrawable() == null) {
+            Toast.makeText(this, "Please choose or create a picture", Toast.LENGTH_SHORT).show();
+        } else {
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageInByte2 = baos.toByteArray();
+            String imageInByte = new String(imageInByte2);
+            OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
+            if (getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
+                try {
+                    Product product = null;
+                    product = (Product) getIntent().getExtras().getSerializable("product");
+                    product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image", BitMapToString(bitmap)));
+                    ProductEdit productEdit = new ProductEdit(product.getRecordId(), product.getRecordCreated(), product.getRecordLastTimeEdited(), product.getName(), product.getDescription(),
+                            new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto()), product.getPrice());
+                    Log.d("imagee", product.getPhoto().getPhoto());
+                    okHttpHttpRequester.editProduct(productEdit, getIntent().getExtras().get("token").toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    ProductDto productDto = null;
+                    productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
+                    productDto.setPhoto(new PhotoDto("image", imageInByte2));
+                    okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
+                    //Log.d("product response", responseBody.string());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            catch (Exception e){
-                e.printStackTrace();
-            }
+            navigateToProductList();
         }
-        else {
-            try{
-                ProductDto productDto = null;
-                productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
-                productDto.setPhoto(new PhotoDto("image", imageInByte2));
-                okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
-                //Log.d("product response", responseBody.string());
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        navigateToProductList();
     }
 
     public String BitMapToString(Bitmap bitmap) {
