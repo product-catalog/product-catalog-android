@@ -90,7 +90,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
 
         mView.setPresenter(mPresenter);
         mView.setNavigator(this);
-
         if (getIntent().getExtras().containsKey("image")) {
             imageView = (ImageView) findViewById(R.id.imageView_addProductPicture_imageView);
             Bitmap bitmap2 = StringToBitMap(getIntent().getExtras().get("image").toString());
@@ -165,6 +164,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     @Override
     public void navigateToProductList() {
         Intent intent = new Intent(this, ProductsListActivity.class);
+        intent.putExtra("token", getIntent().getExtras().get("token").toString());
         startActivity(intent);
         finish();
     }

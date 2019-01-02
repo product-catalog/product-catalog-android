@@ -57,9 +57,9 @@ public class LoginFragment extends Fragment implements LoginContracts.View {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         password = view.findViewById(R.id.editText_login_password);
-        password.setText("123");
+        password.setText("admin");
         username = view.findViewById(R.id.editText_login_username);
-        username.setText("bobi");
+        username.setText("admin");
         ButterKnife.bind(this, view);
         return view;
     }

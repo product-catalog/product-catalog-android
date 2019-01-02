@@ -52,6 +52,9 @@ public class ProductDetailsFragment
     @BindView(R.id.button_productDetails_delete)
     Button delete;
 
+    @BindView(R.id.button_productDetails_edit)
+    Button edit;
+
     Product mProduct;
 
     @Inject
@@ -73,6 +76,10 @@ public class ProductDetailsFragment
     @Override
     public void onResume() {
         super.onResume();
+        if (!(new OkHttpHttpRequester().isAdmin(getActivity().getIntent().getExtras().get("token").toString()))){
+            delete.setVisibility(View.INVISIBLE);
+            edit.setVisibility(View.INVISIBLE);
+        }
         mPresenter.subscribe(this);
         mPresenter.loadProduct(getActivity().getIntent().getExtras().get("token").toString());
     }
