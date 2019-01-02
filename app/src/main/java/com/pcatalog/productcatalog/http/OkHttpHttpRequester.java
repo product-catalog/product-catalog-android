@@ -162,18 +162,21 @@ public class OkHttpHttpRequester implements HttpRequester {
         else if (filterField == FilterField.BETWEEN25AND50){
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByPrice?minPrice=25&maxPrice=50")
                     .build();
         }
         else if (filterField == FilterField.BETWEEN50AND75){
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByPrice?minPrice=50&maxPrice=75")
                     .build();
         }
         else {
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByPrice?minPrice=75&maxPrice=100")
                     .build();
         }
@@ -218,18 +221,21 @@ public class OkHttpHttpRequester implements HttpRequester {
         else if (filterField == FilterField.BETWEEN25AND50){
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=25&maxPrice=50")
                     .build();
         }
         else if (filterField == FilterField.BETWEEN50AND75){
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=50&maxPrice=75")
                     .build();
         }
         else {
             request = new Request.Builder()
                     .get()
+                    .addHeader("Authorization", "Bearer " + token)
                     .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=75&maxPrice=100")
                     .build();
         }
