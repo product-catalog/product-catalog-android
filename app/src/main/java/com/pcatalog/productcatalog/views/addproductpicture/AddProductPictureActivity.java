@@ -90,11 +90,14 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
 
         mView.setPresenter(mPresenter);
         mView.setNavigator(this);
-        if (getIntent().getExtras().containsKey("image")) {
+        try {
+            Product last = (Product) getIntent().getExtras().getSerializable("product");
             imageView = (ImageView) findViewById(R.id.imageView_addProductPicture_imageView);
-            Bitmap bitmap2 = StringToBitMap(getIntent().getExtras().get("image").toString());
+            Bitmap bitmap2 = StringToBitMap(last.getPhoto().getPhoto());
             imageView.setImageBitmap(bitmap2);
             imageView.setBackgroundColor(Color.BLACK);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Button buttonLoadImage = (Button) findViewById(R.id.button_pictures_capture);
         if (imageView.getDrawable() == null) {
@@ -254,7 +257,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     }
 
     @OnClick(R.id.button_addProductPicture_goToProductsList)
-    public void goToProductList(){
+    public void goToProductList() {
         navigateToProductList();
     }
 
