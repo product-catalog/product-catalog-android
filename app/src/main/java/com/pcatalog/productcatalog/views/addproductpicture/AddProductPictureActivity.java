@@ -3,6 +3,7 @@ package com.pcatalog.productcatalog.views.addproductpicture;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -53,6 +56,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
 
     // Camera activity request code
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 300;
     private static String imageStoragePath;
 
     private static int RESULT_LOAD_IMAGE = 1;
@@ -91,13 +95,19 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         mView.setPresenter(mPresenter);
         mView.setNavigator(this);
         try {
-            Product last = (Product) getIntent().getExtras().getSerializable("product");
+            Product product = (Product) getIntent().getExtras().getSerializable("product");
             imageView = (ImageView) findViewById(R.id.imageView_addProductPicture_imageView);
-            Bitmap bitmap2 = StringToBitMap(last.getPhoto().getPhoto());
+            Bitmap bitmap2 = StringToBitMap(product.getPhoto().getPhoto());
             imageView.setImageBitmap(bitmap2);
             imageView.setBackgroundColor(Color.BLACK);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (getIntent().getExtras().containsKey("image")) {
+            imageView = (ImageView) findViewById(R.id.imageView_addProductPicture_imageView);
+            Bitmap bitmap2 = StringToBitMap(getIntent().getExtras().get("image").toString());
+            imageView.setImageBitmap(bitmap2);
+            imageView.setBackgroundColor(Color.BLACK);
         }
         Button buttonLoadImage = (Button) findViewById(R.id.button_pictures_capture);
         if (imageView.getDrawable() == null) {
@@ -136,20 +146,29 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
 
         Button btnCamera = findViewById(R.id.btnCamera);
         btnCamera.setOnClickListener((v) -> {
-            Intent intent = new Intent(AddProductPictureActivity.this, CameraActivity.class);
-            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
-                Product product = (Product) getIntent().getExtras().getSerializable("product");
-                intent.putExtra("product", product);
-                intent.putExtra("productAction", ProductAction.EDIT);
-                intent.putExtra("token", getIntent().getExtras().get("token").toString());
-            } else {
-                ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
-                intent.putExtra("product", productDto);
-                intent.putExtra("productAction", ProductAction.ADD);
-                intent.putExtra("token", getIntent().getExtras().get("token").toString());
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
             }
-            startActivity(intent);
-            finish();
+            else {
+                Intent intent = new Intent(AddProductPictureActivity.this, CameraActivity.class);
+                if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
+                    Product product = (Product) getIntent().getExtras().getSerializable("product");
+                    intent.putExtra("product", product);
+                    intent.putExtra("productAction", ProductAction.EDIT);
+                    intent.putExtra("token", getIntent().getExtras().get("token").toString());
+                } else {
+                    ProductDto productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
+                    intent.putExtra("product", productDto);
+                    intent.putExtra("productAction", ProductAction.ADD);
+                    intent.putExtra("token", getIntent().getExtras().get("token").toString());
+                }
+                startActivity(intent);
+                finish();
+            }
         });
 
         getFragmentManager()

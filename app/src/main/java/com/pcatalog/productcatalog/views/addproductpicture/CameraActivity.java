@@ -1,11 +1,15 @@
 package com.pcatalog.productcatalog.views.addproductpicture;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -27,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 public class CameraActivity extends AppCompatActivity {
 
     public static final long IDENTIFIER = 3;
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +40,20 @@ public class CameraActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Camera deviceCamera = Camera.open();
-
         ImageSurfaceView imageSurfaceView = new ImageSurfaceView(CameraActivity.this, deviceCamera);
         FrameLayout cameraPreviewLayout = findViewById(R.id.camera_preview);
         cameraPreviewLayout.addView(imageSurfaceView);
 
         Button captureButton = findViewById(R.id.button_camera_proceed);
         captureButton.setOnClickListener(v -> takePicture(deviceCamera));
+//
+//        Camera deviceCamera = Camera.open();
+//        ImageSurfaceView imageSurfaceView = new ImageSurfaceView(CameraActivity.this, deviceCamera);
+//        FrameLayout cameraPreviewLayout = findViewById(R.id.camera_preview);
+//        cameraPreviewLayout.addView(imageSurfaceView);
+//
+//        Button captureButton = findViewById(R.id.button_camera_proceed);
+//        captureButton.setOnClickListener(v -> takePicture(deviceCamera));
     }
 
     private void takePicture(Camera deviceCamera) {
@@ -66,12 +78,11 @@ public class CameraActivity extends AppCompatActivity {
                     byte[] imageInByte = baos.toByteArray();
                     String uploadPicture = new String(imageInByte);
                     Intent intent = new Intent(this, AddProductPictureActivity.class);
-                    if (getIntent().getExtras().get("productAction") == ProductAction.EDIT){
-                        Product product = (Product)getIntent().getExtras().get("product");
+                    if (getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
+                        Product product = (Product) getIntent().getExtras().get("product");
                         product.getPhoto().setPhoto(BitMapToString(bitmap2));
                         intent.putExtra("product", product);
-                    }
-                    else {
+                    } else {
                         ProductDto productDto = (ProductDto) getIntent().getExtras().get("product");
                         productDto.setPhoto(new PhotoDto("picture", imageInByte));
                         intent.putExtra("product", productDto);
@@ -83,11 +94,11 @@ public class CameraActivity extends AppCompatActivity {
                 });
     }
 
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
 }
