@@ -1,9 +1,7 @@
 package com.pcatalog.productcatalog.views.productdetails;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.ProductAction;

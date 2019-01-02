@@ -92,9 +92,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         void bind(Product product) {
             mNameTextView.setText(product.getName());
             mProductImageView.setImageBitmap(StringToBitMap(product.getPhoto().getPhoto()));
-//            Picasso.get()
-//                    .load("http://idrawproart.com/CapOneSuperhero.jpg")
-//                    .into(mProductImageView);
             mProduct = product;
         }
 
@@ -108,12 +105,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         }
     }
 
-    public static Bitmap StringToBitMap(String encodedString){
+    public static Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }

@@ -3,22 +3,15 @@ package com.pcatalog.productcatalog.views.addproduct;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.ProductAction;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
-
-import java.text.NumberFormat;
-import java.util.Currency;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -26,9 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AddProductFragment extends Fragment implements AddProductContracts.View {
 
 
@@ -47,7 +37,6 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
 
     @Inject
     public AddProductFragment() {
-        // Required empty public constructor
     }
 
 
@@ -116,11 +105,6 @@ public class AddProductFragment extends Fragment implements AddProductContracts.
     public void setPresenter(AddProductContracts.Presenter presenter) {
         mPresenter = presenter;
     }
-
-//    @Override
-//    public void navigateToAddProductPicture(ProductDto productDto, ProductAction productAction) {
-//        mNavigator.navigateToAddProductPicture(productDto, productAction);
-//    }
 
     @Override
     public void showError(Throwable throwable) {

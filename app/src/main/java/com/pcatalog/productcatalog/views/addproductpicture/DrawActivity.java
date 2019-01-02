@@ -17,8 +17,6 @@ import butterknife.BindView;
 
 public class DrawActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //    DrawingView dv ;
-//    private Paint mPaint;
     private Button save;
 
     @BindView(R.id.canvas)
@@ -31,19 +29,6 @@ public class DrawActivity extends AppCompatActivity implements View.OnClickListe
         canvasView = (CanvasView)findViewById(R.id.canvas);
         save = findViewById(R.id.button_draw_savePicture);
         save.setOnClickListener(this);
-//        dv = new DrawingView(this);
-////        dv.setPadding(30, 30, 30, 30);
-//        dv.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
-//        dv.setMinimumWidth(100);
-//        setContentView(dv);
-//        mPaint = new Paint();
-//        mPaint.setAntiAlias(true);
-//        mPaint.setDither(true);
-//        mPaint.setColor(Color.GREEN);
-//        mPaint.setStyle(Paint.Style.STROKE);
-//        mPaint.setStrokeJoin(Paint.Join.ROUND);
-//        mPaint.setStrokeCap(Paint.Cap.ROUND);
-//        mPaint.setStrokeWidth(12);
     }
 
     public void clearCanvas(View v){

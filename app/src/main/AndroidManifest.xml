@@ -16,7 +16,7 @@
         <activity android:name=".views.addproductpicture.DrawActivity" />
         <activity android:name=".views.productslist.ProductsListActivity" />
         <activity android:name=".views.productdetails.ProductDetailsActivity" />
-        <activity android:name=".views.login.LoginActivity"/>
+        <activity android:name=".views.login.LoginActivity" />
         <activity android:name=".views.welcomemenu.WelcomeMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.register.RegisterActivity"></activity>
     </application>
 
 </manifest>

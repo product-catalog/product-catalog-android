@@ -17,9 +17,9 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class WelcomeMenuModule {
     @FragmentScoped
     @ContributesAndroidInjector
-    abstract WelcomeMenuFragment loginFragment();
+    abstract WelcomeMenuFragment welcomeMenuFragment();
 
     @ActivityScoped
     @Binds
-    abstract WelcomeMenuContracts.Presenter loginPresenter(WelcomeMenuPresenter presenter);
+    abstract WelcomeMenuContracts.Presenter welcomeMenuContractsPresenter(WelcomeMenuPresenter presenter);
 }

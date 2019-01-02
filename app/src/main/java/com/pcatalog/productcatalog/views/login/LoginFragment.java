@@ -3,7 +3,6 @@ package com.pcatalog.productcatalog.views.login;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +14,12 @@ import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.LoginDto;
 import com.pcatalog.productcatalog.models.TokenDto;
-import com.pcatalog.productcatalog.validators.Patterns;
-
-import java.io.IOException;
-import java.util.regex.Pattern;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LoginFragment extends Fragment implements LoginContracts.View {
 
 
@@ -48,7 +38,6 @@ public class LoginFragment extends Fragment implements LoginContracts.View {
 
     @Inject
     public LoginFragment() {
-        // Required empty public constructor
     }
 
 

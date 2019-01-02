@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class TokenDto implements Serializable {
     private String token;
 
-    protected TokenDto(){}
+    protected TokenDto() {
+    }
 
     public TokenDto(String token) {
         setToken(token);

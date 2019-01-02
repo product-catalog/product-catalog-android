@@ -17,11 +17,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import okhttp3.Credentials;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -29,11 +26,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class OkHttpHttpRequester implements HttpRequester {
+
     public OkHttpHttpRequester() {
 
     }
 
-    //private String host = "http://192.168.0.100:8080";
     private String host = "http://10.0.2.2:8080";
 
     @Override
@@ -145,65 +142,6 @@ public class OkHttpHttpRequester implements HttpRequester {
     }
 
     @Override
-    public List<Product> getFilteredProductsByPrice(FilterField filterField, String token) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
-        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        ObjectMapper objectMapper = new ObjectMapper();
-        Request request;
-        if (filterField == FilterField.BETWEEN0AND25){
-            request = new Request.Builder()
-                    .get()
-                    .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByPrice?minPrice=0&maxPrice=25")
-                    .build();
-        }
-        else if (filterField == FilterField.BETWEEN25AND50){
-            request = new Request.Builder()
-                    .get()
-                    .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByPrice?minPrice=25&maxPrice=50")
-                    .build();
-        }
-        else if (filterField == FilterField.BETWEEN50AND75){
-            request = new Request.Builder()
-                    .get()
-                    .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByPrice?minPrice=50&maxPrice=75")
-                    .build();
-        }
-        else {
-            request = new Request.Builder()
-                    .get()
-                    .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByPrice?minPrice=75&maxPrice=100")
-                    .build();
-        }
-
-        OkHttpClient client = new OkHttpClient();
-
-        Response response = null;
-        try {
-            response = client.newCall(request)
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ResponseBody body2 = response.body();
-        Type listType = new TypeToken<ArrayList<Product>>() {
-        }.getType();
-        ArrayList<Product> productsDetailsDtos = null;
-        try {
-            productsDetailsDtos = new Gson().fromJson(body2.string(), listType);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return productsDetailsDtos;
-    }
-
-    @Override
     public List<Product> getFilteredProducts(String patternName, FilterField filterField, String token) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -211,32 +149,29 @@ public class OkHttpHttpRequester implements HttpRequester {
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         Request request;
-        if (filterField == FilterField.BETWEEN0AND25){
+        if (filterField == FilterField.BETWEEN0AND25) {
             request = new Request.Builder()
                     .get()
                     .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=0&maxPrice=25")
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName + "&minPrice=0&maxPrice=25")
                     .build();
-        }
-        else if (filterField == FilterField.BETWEEN25AND50){
+        } else if (filterField == FilterField.BETWEEN25AND50) {
             request = new Request.Builder()
                     .get()
                     .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=25&maxPrice=50")
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName + "&minPrice=25&maxPrice=50")
                     .build();
-        }
-        else if (filterField == FilterField.BETWEEN50AND75){
+        } else if (filterField == FilterField.BETWEEN50AND75) {
             request = new Request.Builder()
                     .get()
                     .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=50&maxPrice=75")
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName + "&minPrice=50&maxPrice=75")
                     .build();
-        }
-        else {
+        } else {
             request = new Request.Builder()
                     .get()
                     .addHeader("Authorization", "Bearer " + token)
-                    .url(host + "/product/getByNameAndPrice?name=" + patternName+"&minPrice=75&maxPrice=100")
+                    .url(host + "/product/getByNameAndPrice?name=" + patternName + "&minPrice=75&maxPrice=100")
                     .build();
         }
 
@@ -265,9 +200,6 @@ public class OkHttpHttpRequester implements HttpRequester {
 
     @Override
     public Product createNewProduct(ProductDto productDto, String token) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         String carAsString = null;
@@ -277,10 +209,6 @@ public class OkHttpHttpRequester implements HttpRequester {
             e.printStackTrace();
         }
         RequestBody requestBody = RequestBody.create(JSON, carAsString);
-//        RequestBody requestBody = new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("somParam", "someValue")
-//                .build();
         Request request = new Request.Builder()
                 .get()
                 .addHeader("Authorization", "Bearer " + token)
@@ -302,19 +230,15 @@ public class OkHttpHttpRequester implements HttpRequester {
         ResponseBody body2 = response.body();
         Type listType = new TypeToken<Product>() {
         }.getType();
-        try{
+        try {
             return new Gson().fromJson(body2.string(), listType);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     @Override
-    public ResponseBody editProduct(ProductEdit productEdit, String token) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
+    public Product editProduct(ProductEdit productEdit, String token) {
         final MediaType JSON = MediaType.get("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         String carAsString = null;
@@ -324,10 +248,6 @@ public class OkHttpHttpRequester implements HttpRequester {
             e.printStackTrace();
         }
         RequestBody requestBody = RequestBody.create(JSON, carAsString);
-//        RequestBody requestBody = new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("somParam", "someValue")
-//                .build();
         Request request = new Request.Builder()
                 .get()
                 .addHeader("Authorization", "Bearer " + token)
@@ -347,7 +267,13 @@ public class OkHttpHttpRequester implements HttpRequester {
 
 
         ResponseBody body2 = response.body();
-        return body2;
+        Type listType = new TypeToken<Product>() {
+        }.getType();
+        try {
+            return new Gson().fromJson(body2.string(), listType);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -360,6 +286,41 @@ public class OkHttpHttpRequester implements HttpRequester {
                 .addHeader("Authorization", "Bearer " + token)
                 .delete()
                 .url(host + "/product/delete?id=" + id)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = null;
+        try {
+            response = client.newCall(request)
+                    .execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        ResponseBody body2 = response.body();
+        return body2;
+    }
+
+    @Override
+    public ResponseBody registerUser(LoginDto productDto) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String carAsString = null;
+        try {
+            carAsString = objectMapper.writeValueAsString(productDto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(JSON, carAsString);
+        Request request = new Request.Builder()
+                .get()
+                .post(requestBody)
+                .url(host + "/signup")
                 .build();
 
         OkHttpClient client = new OkHttpClient();
@@ -447,40 +408,12 @@ public class OkHttpHttpRequester implements HttpRequester {
         Type listType = new TypeToken<TokenDto>() {
         }.getType();
         TokenDto tokenDto = new TokenDto("null");
-        try{
+        try {
             tokenDto = new Gson().fromJson(body2.string(), listType);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return tokenDto;
-    }
-
-    @Override
-    public ResponseBody getUser(String token) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
-        final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        ObjectMapper objectMapper = new ObjectMapper();
-        Request request = new Request.Builder()
-                .get()
-                .addHeader("Authorization", "earer " + token)
-                .url(host + "/user/getUser")
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        Response response = null;
-        try {
-            response = client.newCall(request)
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ResponseBody body2 = response.body();
-        return body2;
     }
 
     @Override

@@ -1,14 +1,10 @@
 package com.pcatalog.productcatalog.views.productslist;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.pcatalog.productcatalog.async.base.SchedulerProvider;
 import com.pcatalog.productcatalog.enums.FilterField;
 import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,21 +15,17 @@ import io.reactivex.disposables.Disposable;
 
 public class ProductsListPresenter
         implements ProductsListContracts.Presenter {
-    //
-//    private final ProductsService mProductsService;
+
     private final SchedulerProvider mSchedulerProvider;
     private ProductsListContracts.View mView;
 
     @Inject
     public ProductsListPresenter(
-            //ProductsService productsService,
             SchedulerProvider schedulerProvider) {
-        //mProductsService = productsService;
         mSchedulerProvider = schedulerProvider;
     }
 
     @Override
-    // same as // setView(SuperheroesListContracts.View view)
     public void subscribe(ProductsListContracts.View view) {
         mView = view;
     }

@@ -18,7 +18,6 @@ import okhttp3.ResponseBody;
 
 public class ProductDetailsPresenter
         implements ProductDetailsContracts.Presenter {
-    //private final ProductsService mProductsService;
     private final SchedulerProvider mSchedulerProvider;
 
     private ProductDetailsContracts.View mView;
@@ -26,10 +25,8 @@ public class ProductDetailsPresenter
 
     @Inject
     public ProductDetailsPresenter(
-            //ProductsService productsService,
             SchedulerProvider schedulerProvider
     ) {
-        //mProductsService = productsService;
         mSchedulerProvider = schedulerProvider;
     }
 
@@ -45,7 +42,6 @@ public class ProductDetailsPresenter
         Disposable observable = Observable
                 .create((ObservableOnSubscribe<Product>) emitter -> {
                     Product product = okHttpHttpRequester.getProductById(mProductId, token);
-                    //Product product = new Product(1L, new Date(), new Date(), "10", "11", new PhotoDto("a", "A"), 1.0);
                     emitter.onNext(product);
                     emitter.onComplete();
                 })
@@ -61,7 +57,7 @@ public class ProductDetailsPresenter
     }
 
     @Override
-    public Long getProductId(){
+    public Long getProductId() {
         return mProductId;
     }
 

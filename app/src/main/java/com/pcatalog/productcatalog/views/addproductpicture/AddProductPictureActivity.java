@@ -16,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -31,7 +30,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.ProductAction;
-import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.PhotoDto;
 import com.pcatalog.productcatalog.models.Product;
@@ -50,15 +48,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
 
 public class AddProductPictureActivity extends BaseDrawerActivity implements AddProductPictureContracts.Navigator {
 
-    // Camera activity request code
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 300;
     private static String imageStoragePath;
-
     private static int RESULT_LOAD_IMAGE = 1;
     public static final long IDENTIFIER = 2;
 
@@ -131,7 +126,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
             Toast.makeText(getApplicationContext(),
                     "Sorry! Your device doesn't support camera",
                     Toast.LENGTH_LONG).show();
-            // will close the app if the device doesn't have camera
             finish();
         }
 
@@ -193,26 +187,18 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //CAMERA:
         if (resultCode == RESULT_OK) {
-            // Refreshing the gallery
             CameraUtils.refreshGallery(getApplicationContext(), imageStoragePath);
-
-            // successfully captured the image
-            // display it in image view
             previewCapturedImage();
         } else if (resultCode == RESULT_CANCELED) {
-            // user cancelled Image capture
             Toast.makeText(getApplicationContext(),
                     "User cancelled image capture", Toast.LENGTH_SHORT)
                     .show();
         } else {
-            // failed to capture image
             Toast.makeText(getApplicationContext(),
                     "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
                     .show();
         }
-        //END CAMERA
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -247,7 +233,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] imageInByte2 = baos.toByteArray();
             String imageInByte = new String(imageInByte2);
-            OkHttpHttpRequester okHttpHttpRequester = new OkHttpHttpRequester();
             if (getIntent().getExtras().containsKey("productAction") && getIntent().getExtras().get("productAction") == ProductAction.EDIT) {
                 try {
                     Product product = null;
@@ -255,8 +240,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                     product.setPhoto(new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), "image", BitMapToString(bitmap)));
                     ProductEdit productEdit = new ProductEdit(product.getRecordId(), product.getRecordCreated(), product.getRecordLastTimeEdited(), product.getName(), product.getDescription(),
                             new Photo(product.getPhoto().getRecordId(), product.getPhoto().getRecordCreated(), product.getPhoto().getRecordLastTimeEdited(), product.getPhoto().getName(), product.getPhoto().getPhoto()), product.getPrice());
-                    Log.d("imagee", product.getPhoto().getPhoto());
-                    okHttpHttpRequester.editProduct(productEdit, getIntent().getExtras().get("token").toString());
+                    mPresenter.editProduct(productEdit, getIntent().getExtras().get("token").toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -265,8 +249,7 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
                     ProductDto productDto = null;
                     productDto = (ProductDto) getIntent().getExtras().getSerializable("product");
                     productDto.setPhoto(new PhotoDto("image", imageInByte2));
-                    okHttpHttpRequester.createNewProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
-                    //Log.d("product response", responseBody.string());
+                    mPresenter.createProduct(new ProductDto(productDto.getName(), productDto.getDescription(), new PhotoDto("image", imageInByte2), productDto.getPrice()), getIntent().getExtras().get("token").toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -299,7 +282,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         }
     }
 
-    //CAMERA:
     private void restoreFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(CameraUtils.KEY_IMAGE_STORAGE_PATH)) {
@@ -313,9 +295,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         }
     }
 
-    /**
-     * Requesting permissions using Dexter library
-     */
     private void requestCameraPermission() {
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.CAMERA,
@@ -338,9 +317,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
     }
 
 
-    /**
-     * Capturing Camera Image will launch camera app requested image capture
-     */
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra("token", getIntent().getExtras().get("token").toString());
@@ -357,33 +333,21 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
 
-    /**
-     * Saving stored image path to saved instance state
-     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // save file url in bundle as it will be null on screen orientation
-        // changes
         outState.putString(CameraUtils.KEY_IMAGE_STORAGE_PATH, imageStoragePath);
     }
 
-    /**
-     * Restoring image path from saved instance state
-     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        // get the file url
         imageStoragePath = savedInstanceState.getString(CameraUtils.KEY_IMAGE_STORAGE_PATH);
     }
 
 
-    /**
-     * Display image from gallery
-     */
     private void previewCapturedImage() {
         try {
             TextView txtPreview = findViewById(R.id.txt_desc);
@@ -399,10 +363,6 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         }
     }
 
-    /**
-     * Alert dialog to navigate to app settings
-     * to enable necessary permissions
-     */
     private void showPermissionsAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Permissions required!")

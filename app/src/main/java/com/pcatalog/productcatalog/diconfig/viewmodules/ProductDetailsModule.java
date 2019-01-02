@@ -17,9 +17,9 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ProductDetailsModule {
     @FragmentScoped
     @ContributesAndroidInjector
-    abstract ProductDetailsFragment loginFragment();
+    abstract ProductDetailsFragment productDetailsFragment();
 
     @ActivityScoped
     @Binds
-    abstract ProductDetailsContracts.Presenter loginPresenter(ProductDetailsPresenter presenter);
+    abstract ProductDetailsContracts.Presenter productDetailsContractsPresenter(ProductDetailsPresenter presenter);
 }

@@ -23,7 +23,7 @@ public interface AddProductContracts {
         void unsubscribe();
     }
 
-    public interface Navigator {
+    interface Navigator {
 
         void navigateToAddProductPictureAdd(ProductDto productDto, ProductAction productAction);
         void navigateToAddProductPictureEdit(Product product, ProductAction productAction);

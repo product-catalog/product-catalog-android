@@ -14,10 +14,10 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class AddProductModule {
     @FragmentScoped
     @ContributesAndroidInjector
-    abstract AddProductFragment loginFragment();
+    abstract AddProductFragment addProductFragment();
 
     @ActivityScoped
     @Binds
-    abstract AddProductContracts.Presenter loginPresenter(AddProductPresenter presenter);
+    abstract AddProductContracts.Presenter addProductContractsPresenter(AddProductPresenter presenter);
 }
 

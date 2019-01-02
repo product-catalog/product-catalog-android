@@ -1,9 +1,7 @@
 package com.pcatalog.productcatalog.views.productdetails;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Base64;
@@ -20,7 +18,6 @@ import com.pcatalog.productcatalog.http.OkHttpHttpRequester;
 import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.Product;
 
-import java.io.IOException;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -59,7 +56,6 @@ public class ProductDetailsFragment
 
     @Inject
     public ProductDetailsFragment() {
-        // Required empty public constructor
     }
 
     @Override

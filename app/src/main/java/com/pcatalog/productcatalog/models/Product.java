@@ -3,7 +3,7 @@ package com.pcatalog.productcatalog.models;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Product implements Serializable{
+public class Product implements Serializable {
 
     private Long recordId;
     private Date recordCreated;

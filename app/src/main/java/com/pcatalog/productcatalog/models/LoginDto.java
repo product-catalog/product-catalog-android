@@ -6,7 +6,8 @@ public class LoginDto implements Serializable {
     private String username;
     private String password;
 
-    protected LoginDto(){}
+    protected LoginDto() {
+    }
 
     public LoginDto(String username, String password) {
         setUsername(username);

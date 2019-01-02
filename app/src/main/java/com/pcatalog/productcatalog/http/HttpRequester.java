@@ -19,8 +19,6 @@ public interface HttpRequester {
 
     TokenDto getToken(LoginDto loginDto);
 
-    ResponseBody getUser(String token);
-
     List<Product> getAllProducts(String token);
 
     Product getProductById(Long id, String token);
@@ -29,13 +27,13 @@ public interface HttpRequester {
 
     List<Product> getFilteredProductsByName(String pattern, String token);
 
-    List<Product> getFilteredProductsByPrice(FilterField filterField, String token);
-
     Product createNewProduct(ProductDto productDto, String token);
 
     ResponseBody deleteProduct(Long id, String token);
 
-    ResponseBody editProduct(ProductEdit product, String token);
+    Product editProduct(ProductEdit product, String token);
 
     Boolean isAdmin(String token);
+
+    ResponseBody registerUser(LoginDto productDto);
 }

@@ -1,19 +1,14 @@
 package com.pcatalog.productcatalog.views.addproductpicture;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,7 +16,6 @@ import android.widget.Toast;
 
 import com.pcatalog.productcatalog.R;
 import com.pcatalog.productcatalog.enums.ProductAction;
-import com.pcatalog.productcatalog.models.Photo;
 import com.pcatalog.productcatalog.models.PhotoDto;
 import com.pcatalog.productcatalog.models.Product;
 import com.pcatalog.productcatalog.models.ProductDto;
@@ -46,14 +40,6 @@ public class CameraActivity extends AppCompatActivity {
 
         Button captureButton = findViewById(R.id.button_camera_proceed);
         captureButton.setOnClickListener(v -> takePicture(deviceCamera));
-//
-//        Camera deviceCamera = Camera.open();
-//        ImageSurfaceView imageSurfaceView = new ImageSurfaceView(CameraActivity.this, deviceCamera);
-//        FrameLayout cameraPreviewLayout = findViewById(R.id.camera_preview);
-//        cameraPreviewLayout.addView(imageSurfaceView);
-//
-//        Button captureButton = findViewById(R.id.button_camera_proceed);
-//        captureButton.setOnClickListener(v -> takePicture(deviceCamera));
     }
 
     private void takePicture(Camera deviceCamera) {

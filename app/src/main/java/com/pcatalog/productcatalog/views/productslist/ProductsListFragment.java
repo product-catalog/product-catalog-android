@@ -1,12 +1,9 @@
 package com.pcatalog.productcatalog.views.productslist;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +52,6 @@ public class ProductsListFragment
 
     @Inject
     public ProductsListFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -63,7 +59,6 @@ public class ProductsListFragment
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products_list, container, false);
 
-        // ButterKnife is applied
         ButterKnife.bind(this, view);
 
         mProductsAdapter.setOnProductClickListener(this);
@@ -72,12 +67,8 @@ public class ProductsListFragment
         mProductsViewLayoutManager = new GridLayoutManager(getContext(), 2);
         mProductsView.setLayoutManager(mProductsViewLayoutManager);
 
-//create a list of items for the spinner.
         String[] items = new String[]{"ALL", "BETWEEN 0 AND 25", "BETWEEN 25 AND 50", "BETWEEN 50 AND 75", "BETWEEN 75 AND 100"};
-//create an adapter to describe how the items are displayed, adapters are used in several places in android.
-//There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-//set the spinners adapter to the previously created one.
         mFilterPriceSpinner.setAdapter(adapter);
         mFilterPriceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

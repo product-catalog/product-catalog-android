@@ -14,9 +14,9 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class AddProductPictureModule {
     @FragmentScoped
     @ContributesAndroidInjector
-    abstract AddProductPictureFragment loginFragment();
+    abstract AddProductPictureFragment addProductPictureFragment();
 
     @ActivityScoped
     @Binds
-    abstract AddProductPictureContracts.Presenter loginPresenter(AddProductPicturePresenter presenter);
+    abstract AddProductPictureContracts.Presenter addProductPictureContractsPresenter(AddProductPicturePresenter presenter);
 }

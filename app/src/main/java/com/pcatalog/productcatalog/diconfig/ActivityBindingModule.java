@@ -5,12 +5,14 @@ import com.pcatalog.productcatalog.diconfig.viewmodules.AddProductPictureModule;
 import com.pcatalog.productcatalog.diconfig.viewmodules.LoginModule;
 import com.pcatalog.productcatalog.diconfig.viewmodules.ProductDetailsModule;
 import com.pcatalog.productcatalog.diconfig.viewmodules.ProductsListModule;
+import com.pcatalog.productcatalog.diconfig.viewmodules.RegisterModule;
 import com.pcatalog.productcatalog.diconfig.viewmodules.WelcomeMenuModule;
 import com.pcatalog.productcatalog.views.addproduct.AddProductActivity;
 import com.pcatalog.productcatalog.views.addproductpicture.AddProductPictureActivity;
 import com.pcatalog.productcatalog.views.login.LoginActivity;
 import com.pcatalog.productcatalog.views.productdetails.ProductDetailsActivity;
 import com.pcatalog.productcatalog.views.productslist.ProductsListActivity;
+import com.pcatalog.productcatalog.views.register.RegisterActivity;
 import com.pcatalog.productcatalog.views.welcomemenu.WelcomeMenuActivity;
 
 import dagger.Module;
@@ -54,4 +56,11 @@ public abstract class ActivityBindingModule {
             modules = WelcomeMenuModule.class
     )
     abstract WelcomeMenuActivity welcomeMenuActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(
+            modules = RegisterModule.class
+    )
+    abstract RegisterActivity registerActivity();
+
 }

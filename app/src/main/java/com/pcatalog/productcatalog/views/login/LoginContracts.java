@@ -17,6 +17,7 @@ public interface LoginContracts {
         void subscribe(LoginContracts.View view);
 
         void unsubscribe();
+
     }
 
     interface Navigator {
