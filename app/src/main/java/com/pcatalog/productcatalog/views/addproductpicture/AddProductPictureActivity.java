@@ -253,6 +253,11 @@ public class AddProductPictureActivity extends BaseDrawerActivity implements Add
         }
     }
 
+    @OnClick(R.id.button_addProductPicture_goToProductsList)
+    public void goToProductList(){
+        navigateToProductList();
+    }
+
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);

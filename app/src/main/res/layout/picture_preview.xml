@@ -63,16 +63,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:foreground="?attr/selectableItemBackground"
-            android:text="Take A Picture"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:paddingHorizontal="16dp"
-            android:layout_below="@id/button_addProduct_proceed"
             android:background="@drawable/shapelogin"
-            android:padding="15dp"
-            android:shadowColor="@android:color/transparent"/>
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Take A Picture" />
 
     </LinearLayout>
 </LinearLayout>
